@@ -19,8 +19,8 @@ public class Main {
     // ---------------- DO NOT CHANGE ANYTHING ABOVE THIS LINE ---------------
 
     public static void main(String[] args) {
-        int cols = getRandomWorldSize();
-        int rows = getRandomWorldSize();
+        int cols = 4;//getRandomWorldSize();
+        int rows = 4;//getRandomWorldSize();
         World.setSize(cols, rows);
         World.setDelay(DELAY);
         World.setVisible(true);
@@ -28,6 +28,18 @@ public class Main {
 
         // Put your code here
 
+
+        PatternProvider patternProvider = new PatternProvider("test.txt");
+        boolean[][] pattern = patternProvider.getPattern();
+
+        for (int i = 0; i < pattern.length; i++) {
+            for (int j = 0; j < pattern[i].length; j++) {
+                System.out.print(pattern[i][j] + " ");
+            }
+            System.out.println();
+        }
+
+        initializeRobotsPattern(patternProvider.getPattern(), cols, rows);
     }
 
     /**
