@@ -7,7 +7,7 @@ import fopbot.World;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Main {
-    // Delay between each action in Fopbot-World (world), for example:
+    // Delay between each action in FopBot-World (world), for example:
     // Waits 1000ms between each .move() call
     public static final int DELAY = 1000;
 
@@ -43,24 +43,25 @@ public class Main {
         int numberOfRobots = 0;
 
         // Find number of robots to instantiate allRobots-array:
-        // Loop through columns of the world. Satisfies condition (a)
-        for (int i = 0; i < numberOfColumns; i++) {
+        // Loop through rows of the world. Satisfies condition (a)
+        for (int x = 0; x < numberOfColumns; x++) {
 
-            // Loop through rows of the world. Satisfies condition (b)
-            for (int j = 0; j < numberOfRows; j++) {
+            // Loop through columns of the world. Satisfies condition (b)
+            for (int y = 0; y < numberOfRows; y++) {
 
                 // Condition (c)
-                boolean c = i < pattern.length;
+                boolean c = x < pattern.length;
 
                 // Condition (d), only satisfiable if (c) is met
-                boolean d = c && j < pattern[i].length;
+                boolean d = c && y < pattern[x].length;
 
                 // Condition (e), only satisfiable if (c) and (d) are met
-                boolean e = c && d && pattern[i][j];
+                boolean e = c && d && pattern[x][y];
 
                 // Iff all five conditions are met, increase number of robots by one
-                if(c && d && e)
+                if(c && d && e) {
                     numberOfRobots++;
+                }
             }
         }
 
@@ -71,25 +72,26 @@ public class Main {
         int indexForRobot = 0;
 
         // Fill the allRobots-array with robots:
-        // Loop through columns of the world. Satisfies condition (a)
-        for (int i = 0; i < numberOfColumns; i++) {
+        // Loop through rows of the world. Satisfies condition (a)
+        for (int x = 0; x < numberOfColumns; x++) {
 
-            // Loop through rows of the world. Satisfies condition (b)
-            for (int j = 0; j < numberOfRows; j++) {
+            // Loop through columns of the world. Satisfies condition (b)
+            for (int y = 0; y < numberOfRows; y++) {
 
                 // Condition (c)
-                boolean c = i < pattern.length;
+                boolean c = x < pattern.length;
 
                 // Condition (d), only satisfiable if (c) is met
-                boolean d = c && j < pattern[i].length;
+                boolean d = c && y < pattern[x].length;
 
                 // Condition (e), only satisfiable if (c) and (d) are met
-                boolean e = c && d && pattern[i][j];
+                boolean e = c && d && pattern[x][y];
 
-                // Iff all five conditions are met, create a new Robot with coordinates x = i, y = j,
-                // direction = RIGHT and numberOfCoins = numberOfColumns - i
-                if(c && d && e)
-                    allRobots[indexForRobot++] = new Robot(i, j, Direction.RIGHT, numberOfColumns - i);
+                // Iff all five conditions are met, create a new Robot with coordinates x, y,
+                // direction = RIGHT and numberOfCoins = numberOfColumns - y
+                if(c && d && e) {
+                    allRobots[indexForRobot++] = new Robot(x, y, Direction.RIGHT, numberOfColumns - y);
+                }
             }
         }
 
@@ -108,7 +110,7 @@ public class Main {
     public static void letAllRobotsGo(Robot[] allRobots) {
         // Main loop ("Hauptschleife")
         // Only continues if there are non-null elements in the allRobots array
-        while(numberOfNullElements(allRobots) != allRobots.length) {
+        while(numberOfNullRobots(allRobots) != allRobots.length) {
 
             // Loop through allRobots-array
             for (int i = 0; i < allRobots.length; i++) {
@@ -120,21 +122,25 @@ public class Main {
                     allRobots[i].putCoin();
 
                     // Check whether robot would leave world
-                    if(checkMoveToRight(allRobots[i]))
+                    if(canMoveForwards(allRobots[i])) {
 
                         // If not, make robot move
                         allRobots[i].move();
-                    else
+                    } else {
 
                         // If yes, set robot to null
                         allRobots[i] = null;
+                    }
+
+
                 }
             }
 
-            // Check whether we have at least 3 robots
+            // Check whether we have at least 3 components
             if (allRobots.length >= 3) {
+
                 // Get random indices i, j and k
-                int[] indices = generateThreeRandomIndices(allRobots.length);
+                int[] indices = generateThreeDistinctRandomIndices(allRobots.length);
 
                 // Sort indices-array
                 sortArray(indices);
@@ -144,7 +150,7 @@ public class Main {
             }
 
             // Get number of null elements in allRobots
-            int l = numberOfNullElements(allRobots);
+            int l = numberOfNullRobots(allRobots);
 
             // If number is equal or greater than 3, create new array
             if (l >= 3) {
@@ -156,11 +162,13 @@ public class Main {
                 int index = 0;
 
                 // Loop through existing array
-                for (Robot roby : allRobots)
+                for (Robot roby : allRobots) {
 
                     // Add robot to new array, if robot is not null
-                    if(roby != null)
+                    if(roby != null) {
                         tmp[index++] = roby;
+                    }
+                }
 
                 // Assign allRobots to new array
                 allRobots = tmp;
@@ -174,7 +182,7 @@ public class Main {
      * @param allRobots   The robot-array.
      * @return            Number of null elements in the array.
      */
-    public static int numberOfNullElements(Robot[] allRobots) {
+    public static int numberOfNullRobots(Robot[] allRobots) {
         // Initialize counter for null elements
         int counter = 0;
 
@@ -195,9 +203,29 @@ public class Main {
      * @param roby    The robot.
      * @return        True, if the robot can move to the right.
      */
-    public static boolean checkMoveToRight(Robot roby) {
-        // Check if move to the right
-        return roby.getX() + 1 < World.getWidth();
+    public static boolean canMoveForwards(Robot roby) {
+        // Check movement to the right
+        if (roby.getDirection() == Direction.RIGHT && roby.getX() < World.getWidth() - 1) {
+            return true;
+        }
+
+        // Check movement to the left
+        if (roby.getDirection() == Direction.LEFT && roby.getX() > 0) {
+            return true;
+        }
+
+        // Check movement upwards
+        if (roby.getDirection() == Direction.UP && roby.getY() < World.getHeight() - 1) {
+            return true;
+        }
+
+        // Check movement downwards
+        if (roby.getDirection() == Direction.DOWN && roby.getY() > 0) {
+            return true;
+        }
+
+        // Else return false
+        return false;
     }
 
     /**
@@ -206,7 +234,7 @@ public class Main {
      * @param bound   The upper bound for the int values.
      * @return        The array.
      */
-    public static int[] generateThreeRandomIndices(int bound) {
+    public static int[] generateThreeDistinctRandomIndices(int bound) {
         // Initialize i, j and k
         int i = 0, j = 0,  k = 0;
 
@@ -264,17 +292,16 @@ public class Main {
         int j = indices[1];
         int k = indices[2];
 
-        // Create temporary robots
-        Robot tmp1 = allRobots[j];
-        Robot tmp2 = allRobots[k];
+        // Create temporary robot
+        Robot tmp = allRobots[k];
+
+        // Assign robot j to k
+        allRobots[k] = allRobots[j];
 
         // Assign robot i to j
         allRobots[j] = allRobots[i];
 
-        // Assign robot j to k
-        allRobots[k] = tmp1;
-
         // Assign robot k to i
-        allRobots[i] = tmp2;
+        allRobots[i] = tmp;
     }
 }
