@@ -16,30 +16,23 @@ public class Main {
         return 4 + ThreadLocalRandom.current().nextInt(6);
     }
 
-    // ---------------- DO NOT CHANGE ANYTHING ABOVE THIS LINE ---------------
+    public static final String FILENAME = "ExamplePattern.txt";
 
     public static void main(String[] args) {
-        int cols = 4;//getRandomWorldSize();
-        int rows = 4;//getRandomWorldSize();
+        int cols = getRandomWorldSize();
+        int rows = getRandomWorldSize();
         World.setSize(cols, rows);
         World.setDelay(DELAY);
         World.setVisible(true);
         System.out.println("Size of world: " + cols + "x" + rows);
 
+        PatternProvider patternProvider = new PatternProvider(FILENAME);
+        boolean[][] testPattern = patternProvider.getPattern();
+
         // Put your code here
 
-
-        PatternProvider patternProvider = new PatternProvider("test.txt");
-        boolean[][] pattern = patternProvider.getPattern();
-
-        for (int i = 0; i < pattern.length; i++) {
-            for (int j = 0; j < pattern[i].length; j++) {
-                System.out.print(pattern[i][j] + " ");
-            }
-            System.out.println();
-        }
-
-        initializeRobotsPattern(patternProvider.getPattern(), cols, rows);
+        Robot[] allRobots = initializeRobotsPattern(testPattern, cols, rows);
+        letAllRobotsGo(allRobots);
     }
 
     /**
@@ -56,19 +49,19 @@ public class Main {
 
         // Find number of robots to instantiate allRobots-array:
         // Loop through rows of the world. Satisfies condition (a)
-        for (int x = 0; x < numberOfColumns; x++) {
+        for (int x = 0; x < numberOfRows; x++) {
 
             // Loop through columns of the world. Satisfies condition (b)
-            for (int y = 0; y < numberOfRows; y++) {
+            for (int y = 0; y < numberOfColumns; y++) {
 
                 // Condition (c)
-                boolean c = x < pattern.length;
+                boolean c = y < pattern.length;
 
                 // Condition (d), only satisfiable if (c) is met
-                boolean d = c && y < pattern[x].length;
+                boolean d = c && x < pattern[y].length;
 
                 // Condition (e), only satisfiable if (c) and (d) are met
-                boolean e = c && d && pattern[x][y];
+                boolean e = c && d && pattern[y][x];
 
                 // Iff all five conditions are met, increase number of robots by one
                 if(c && d && e) {
@@ -85,24 +78,24 @@ public class Main {
 
         // Fill the allRobots-array with robots:
         // Loop through rows of the world. Satisfies condition (a)
-        for (int x = 0; x < numberOfColumns; x++) {
+        for (int y = 0; y < numberOfRows; y++) {
 
             // Loop through columns of the world. Satisfies condition (b)
-            for (int y = 0; y < numberOfRows; y++) {
+            for (int x = 0; x < numberOfColumns; x++) {
 
                 // Condition (c)
-                boolean c = x < pattern.length;
+                boolean c = y < pattern.length;
 
                 // Condition (d), only satisfiable if (c) is met
-                boolean d = c && y < pattern[x].length;
+                boolean d = c && x < pattern[y].length;
 
                 // Condition (e), only satisfiable if (c) and (d) are met
-                boolean e = c && d && pattern[x][y];
+                boolean e = c && d && pattern[y][x];
 
                 // Iff all five conditions are met, create a new Robot with coordinates x, y,
-                // direction = RIGHT and numberOfCoins = numberOfColumns - y
+                // direction = RIGHT and numberOfCoins = numberOfColumns - x
                 if(c && d && e) {
-                    allRobots[indexForRobot++] = new Robot(x, y, Direction.RIGHT, numberOfColumns - y);
+                    allRobots[indexForRobot++] = new Robot(x, y, Direction.RIGHT, numberOfColumns - x);
                 }
             }
         }
@@ -231,13 +224,8 @@ public class Main {
             return true;
         }
 
-        // Check movement downwards
-        if (roby.getDirection() == Direction.DOWN && roby.getY() > 0) {
-            return true;
-        }
-
-        // Else return false
-        return false;
+        // Check movement downwards, else return true
+        return roby.getDirection() == Direction.DOWN && roby.getY() > 0;
     }
 
     /**

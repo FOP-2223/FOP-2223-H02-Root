@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class PatternProvider {
 
-    private boolean[][] pattern;
+    private final boolean[][] pattern;
 
     public PatternProvider(String filename) {
         String pathToFile = new File("").getAbsolutePath().concat("/" + filename);
@@ -18,7 +18,7 @@ public class PatternProvider {
 
             while (line != null) {
                 sb.append(line);
-                sb.append(System.lineSeparator());
+                sb.append("\n");
                 line = br.readLine();
             }
 
