@@ -16,22 +16,23 @@ public class Main {
         return 4 + ThreadLocalRandom.current().nextInt(6);
     }
 
+    // Name of file for patterns
     public static final String FILENAME = "ExamplePattern.txt";
 
     public static void main(String[] args) {
-        int cols = getRandomWorldSize();
-        int rows = getRandomWorldSize();
-        World.setSize(cols, rows);
+        int numberOfColumns = getRandomWorldSize();
+        int numberOfRows = getRandomWorldSize();
+        World.setSize(numberOfColumns, numberOfRows);
         World.setDelay(DELAY);
         World.setVisible(true);
-        System.out.println("Size of world: " + cols + "x" + rows);
+        System.out.println("Size of world: " + numberOfColumns + "x" + numberOfRows);
 
         PatternProvider patternProvider = new PatternProvider(FILENAME);
         boolean[][] testPattern = patternProvider.getPattern();
 
         // Put your code here
 
-        Robot[] allRobots = initializeRobotsPattern(testPattern, cols, rows);
+        Robot[] allRobots = initializeRobotsPattern(testPattern, numberOfColumns, numberOfRows);
         letAllRobotsGo(allRobots);
     }
 
