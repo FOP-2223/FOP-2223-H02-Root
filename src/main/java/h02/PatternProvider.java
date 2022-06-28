@@ -10,7 +10,7 @@ public class PatternProvider {
     private final boolean[][] pattern;
 
     public PatternProvider(String filename) {
-        String pathToFile = new File("").getAbsolutePath().concat("/" + filename);
+        String pathToFile = new File("").getAbsolutePath().concat("/src/main/java/h02/resources/" + filename);
 
         try (BufferedReader br = new BufferedReader(new FileReader(pathToFile))) {
             StringBuilder sb = new StringBuilder();
