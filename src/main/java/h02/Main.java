@@ -4,6 +4,7 @@ import fopbot.Direction;
 import fopbot.Robot;
 import fopbot.World;
 
+import java.io.IOException;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Main {
@@ -27,10 +28,13 @@ public class Main {
         World.setVisible(true);
         System.out.println("Size of world: " + numberOfColumns + "x" + numberOfRows);
 
-        PatternProvider patternProvider = new PatternProvider(FILENAME);
+        PatternProvider patternProvider;
+        try {
+            patternProvider = new PatternProvider(FILENAME);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         boolean[][] testPattern = patternProvider.getPattern();
-
-        // Put your code here
 
         Robot[] allRobots = initializeRobotsPattern(testPattern, numberOfColumns, numberOfRows);
         letAllRobotsGo(allRobots);
