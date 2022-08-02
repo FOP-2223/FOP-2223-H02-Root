@@ -54,10 +54,10 @@ public class Main {
 
         // Find number of robots to instantiate allRobots-array:
         // Loop through rows of the world. Satisfies condition (a)
-        for (int x = 0; x < numberOfRows; x++) {
+        for (int y = 0; y < numberOfRows; y++) {
 
             // Loop through columns of the world. Satisfies condition (b)
-            for (int y = 0; y < numberOfColumns; y++) {
+            for (int x = 0; x < numberOfColumns; x++) {
 
                 // Condition (c)
                 boolean c = y < pattern.length;
@@ -132,7 +132,7 @@ public class Main {
                     allRobots[i].putCoin();
 
                     // Check whether robot would leave world
-                    if(canMoveForwards(allRobots[i])) {
+                    if(allRobots[i].isFrontClear()) {
 
                         // If not, make robot move
                         allRobots[i].move();
