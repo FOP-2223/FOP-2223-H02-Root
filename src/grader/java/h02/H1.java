@@ -124,7 +124,7 @@ class H1 {
     }
 
     private String getGeneralInfo() {
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder("General Information:\n");
         builder.append("Size of the Fopbot-World: ");
         builder.append(World.getWidth() + "x" + World.getHeight());
         builder.append(", size of the pattern: ");

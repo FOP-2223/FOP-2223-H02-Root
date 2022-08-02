@@ -208,32 +208,6 @@ public class Main {
     }
 
     /**
-     * Checks whether given robot can move to the right without leaving the world.
-     *
-     * @param roby    The robot.
-     * @return        True, if the robot can move to the right.
-     */
-    public static boolean canMoveForwards(Robot roby) {
-        // Check movement to the right
-        if (roby.getDirection() == Direction.RIGHT && roby.getX() < World.getWidth() - 1) {
-            return true;
-        }
-
-        // Check movement to the left
-        if (roby.getDirection() == Direction.LEFT && roby.getX() > 0) {
-            return true;
-        }
-
-        // Check movement upwards
-        if (roby.getDirection() == Direction.UP && roby.getY() < World.getHeight() - 1) {
-            return true;
-        }
-
-        // Check movement downwards, else return true
-        return roby.getDirection() == Direction.DOWN && roby.getY() > 0;
-    }
-
-    /**
      * Creates an array containing three (pseudo-) random int values from 0 (inclusive) to given parameter (exclusive).
      *
      * @param bound   The upper bound for the int values.
