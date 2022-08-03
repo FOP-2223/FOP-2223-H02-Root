@@ -22,6 +22,8 @@ class H1 {
 
     List<FieldEntity> allRobots;
 
+    String information, generalInformation;
+
     @BeforeEach
     void initialize() {
         width = ThreadLocalRandom.current().nextInt(2, 11);
@@ -42,6 +44,13 @@ class H1 {
         Main.initializeRobotsPattern(randomPattern, width, height);
 
         allRobots = World.getGlobalWorld().getAllFieldEntities();
+
+        information =
+            "Size of the FopBot-World: " + World.getWidth() + "x" + World.getHeight() +
+            ", size of the pattern: " + randomPattern[0].length + "x" + randomPattern.length;
+
+        generalInformation =
+            Utils.getGeneralInfo(information);
     }
 
     @Test
@@ -60,7 +69,7 @@ class H1 {
         assertEquals(
             expectedNumberOfRobots,
             actualNumberOfRobots,
-            getGeneralInfo() +
+            generalInformation +
                 "Expected " + expectedNumberOfRobots + " robots in the world but there were actually " + actualNumberOfRobots + "."
         );
     }
@@ -78,7 +87,7 @@ class H1 {
         assertArrayEquals(
             worldSizePattern,
             actualPattern,
-            getGeneralInfo() +
+            generalInformation +
                 "Expected the robots to be arranged like this:" +
                 booleanArrayToString(worldSizePattern) +
                 "\nBut they are arranged like this:" +
@@ -98,7 +107,7 @@ class H1 {
                 assertEquals(
                     expectedCoins,
                     actualCoins,
-                    getGeneralInfo() +
+                    generalInformation +
                         "Expected robot " + robot + " to have " + expectedCoins + " coins but it has " + actualCoins + "."
                 );
             }
@@ -116,21 +125,11 @@ class H1 {
                 assertEquals(
                     expectedDirection,
                     actualDirection,
-                    getGeneralInfo() +
+                    generalInformation +
                         "Expected robot " + robot + " to face " + expectedDirection + " but it actually faces " + actualDirection + "."
                 );
             }
         }
-    }
-
-    private String getGeneralInfo() {
-        StringBuilder builder = new StringBuilder("General Information:\n");
-        builder.append("Size of the Fopbot-World: ");
-        builder.append(World.getWidth() + "x" + World.getHeight());
-        builder.append(", size of the pattern: ");
-        builder.append(randomPattern[0].length + "x" + randomPattern.length);
-        builder.append("\nTest failed because:\n");
-        return builder.toString();
     }
 
     private boolean[][] getRandomRobotPattern(int width, int height) {

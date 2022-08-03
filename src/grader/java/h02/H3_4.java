@@ -12,6 +12,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestForSubmission("h02")
 class H3_4 {
 
+    String generalInformation;
+
     @Test
     void testSwapRobots() {
         int[] indices;
@@ -37,24 +39,33 @@ class H3_4 {
             j = indices[1];
             k = indices[2];
 
+            generalInformation =
+                Utils.getGeneralInfo(
+                    "Array before: " + robotArrayToString(reference) +
+                        "\nArray afterwards: " + robotArrayToString(robots)
+                );
+
             assertSame(
                 reference[i],
                 robots[j],
-                "Expected Robot from index i = " + i + " to now be at index j = " + j + ", but it is at index " +
+                generalInformation +
+                    "Expected Robot from index i = " + i + " to now be at index j = " + j + ", but it is at index " +
                     getIndexOfRobot(robots, reference[i]) + "!"
             );
 
             assertSame(
                 reference[j],
                 robots[k],
-                "Expected Robot from index j = " + j + " to now be at index k = " + k + ", but it is at index " +
+                generalInformation +
+                    "Expected Robot from index j = " + j + " to now be at index k = " + k + ", but it is at index " +
                     getIndexOfRobot(robots, reference[j]) + "!"
             );
 
             assertSame(
                 reference[k],
                 robots[i],
-                "Expected Robot from index k = " + k + " to now be at index i = " + i + ", but it is at index" +
+                generalInformation +
+                    "Expected Robot from index k = " + k + " to now be at index i = " + i + ", but it is at index" +
                     getIndexOfRobot(robots, reference[k]) + "!"
             );
         }
@@ -66,5 +77,17 @@ class H3_4 {
                 return i;
         }
         return -1;
+    }
+
+    private String robotArrayToString(Robot[] allRobots) {
+        StringBuilder builder = new StringBuilder("\n");
+        builder.append("[");
+        for (int i = 0; i < allRobots.length; i++) {
+            builder.append(allRobots[i]);
+            if (i + 1 != allRobots.length)
+                builder.append(", ");
+        }
+        builder.append("]\n");
+        return builder.toString();
     }
 }

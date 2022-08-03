@@ -29,7 +29,7 @@ class H3_1 {
             assertEquals(
                 expectedNumberOfNullRobots,
                 actualNumberOfNullRobots,
-                provider.getGeneralInfo() +
+                Utils.getGeneralInfo(provider.information) +
                     "Expected number of null elements in array: " + expectedNumberOfNullRobots +
                     ", actual number of null elements in array: " + actualNumberOfNullRobots
             );
@@ -41,8 +41,10 @@ class H3_1 {
         public Robot[] robots;
         public int numberOfNullElements = 0;
 
+        public String information;
+
         RobotArrayProvider(double chance) {
-            int numberOfRobots = ThreadLocalRandom.current().nextInt(256);
+            int numberOfRobots = ThreadLocalRandom.current().nextInt(2,256);
 
             numberOfNullElements = 0;
 
@@ -56,6 +58,10 @@ class H3_1 {
                     robots[i] = new Robot(0, 0);
                 }
             }
+
+            information =
+                "Size of array: " + robots.length +
+                ", array: " + arrayToString();
         }
 
         String arrayToString() {
@@ -69,14 +75,6 @@ class H3_1 {
                 }
             }
             builder.append("]");
-            return builder.toString();
-        }
-
-        String getGeneralInfo() {
-            StringBuilder builder = new StringBuilder("General Information:\n");
-            builder.append("Size of array: " + robots.length);
-            builder.append(", array: " + arrayToString());
-            builder.append("\nTest failed because:\n");
             return builder.toString();
         }
     }

@@ -2,6 +2,7 @@ package h02;
 
 import fopbot.Direction;
 import fopbot.Robot;
+import fopbot.World;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -17,5 +18,12 @@ public class Utils {
         }
 
         return robots;
+    }
+
+    public static String getGeneralInfo(String information) {
+        StringBuilder builder = new StringBuilder("General Information:\n");
+        builder.append(information);
+        builder.append("\nTest failed because:\n");
+        return builder.toString();
     }
 }

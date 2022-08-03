@@ -28,7 +28,8 @@ class H3_3 {
             assertArrayEquals(
                 expected,
                 actual,
-                "Expected array " + Arrays.toString(actual) + " to be sorted!"
+                Utils.getGeneralInfo("Your sorted array: " + Arrays.toString(actual)) +
+                    "Expected the array to be sorted!"
             );
         }
     }
