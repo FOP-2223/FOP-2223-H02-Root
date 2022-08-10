@@ -132,7 +132,7 @@ public class Main {
                     allRobots[i].putCoin();
 
                     // Check whether robot would leave world
-                    if(allRobots[i].isFrontClear()) {
+                    if((allRobots[i].getX() + 1) != World.getWidth()) {
 
                         // If not, make robot move
                         allRobots[i].move();

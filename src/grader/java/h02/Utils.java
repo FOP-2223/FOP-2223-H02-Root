@@ -26,4 +26,16 @@ public class Utils {
         builder.append("\nTest failed because:\n");
         return builder.toString();
     }
+
+    public static String robotArrayToString(Robot[] allRobots) {
+        StringBuilder builder = new StringBuilder("\n");
+        builder.append("[");
+        for (int i = 0; i < allRobots.length; i++) {
+            builder.append(allRobots[i]);
+            if (i + 1 != allRobots.length)
+                builder.append(", ");
+        }
+        builder.append("]\n");
+        return builder.toString();
+    }
 }

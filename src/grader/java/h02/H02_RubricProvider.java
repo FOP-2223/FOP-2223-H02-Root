@@ -24,7 +24,7 @@ public class H02_RubricProvider implements RubricProvider {
         .shortDescription("H3.1: Arraykomponenten gleich null")
         .addChildCriteria(
             DEFAULT_CRITERION.apply(
-                "Number of elements equal to null is correct.",
+                "Number of elements equal to null is correctly calculated.",
                 () -> H3_1.class.getDeclaredMethod("testNumberOfNullRobots")
             )
         )
@@ -92,7 +92,7 @@ public class H02_RubricProvider implements RubricProvider {
                 () -> H1.class.getDeclaredMethod("testRobotCoins")
             ),
             DEFAULT_CRITERION.apply(
-                "All robots face the right direction.",
+                "All robots face to the right.",
                 () -> H1.class.getDeclaredMethod("testRobotDirections")
             )
         )

@@ -41,8 +41,8 @@ class H3_4 {
 
             generalInformation =
                 Utils.getGeneralInfo(
-                    "Array before: " + robotArrayToString(reference) +
-                        "\nArray afterwards: " + robotArrayToString(robots)
+                    "Array before: " + Utils.robotArrayToString(reference) +
+                        "\nArray afterwards: " + Utils.robotArrayToString(robots)
                 );
 
             assertSame(
@@ -73,21 +73,9 @@ class H3_4 {
 
     private int getIndexOfRobot(Robot[] robots, Robot robot) {
         for (int i = 0; i < robots.length; i++) {
-            if(robots[i].equals(robot))
+            if (robots[i].equals(robot))
                 return i;
         }
         return -1;
-    }
-
-    private String robotArrayToString(Robot[] allRobots) {
-        StringBuilder builder = new StringBuilder("\n");
-        builder.append("[");
-        for (int i = 0; i < allRobots.length; i++) {
-            builder.append(allRobots[i]);
-            if (i + 1 != allRobots.length)
-                builder.append(", ");
-        }
-        builder.append("]\n");
-        return builder.toString();
     }
 }
