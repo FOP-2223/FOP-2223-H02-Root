@@ -2,7 +2,7 @@ package h02.h1;
 
 public class H1Utils {
 
-    public static boolean[][] stringToPatternConverter(String patternAsString) {
+    public static boolean[][] convertStringToPattern(String patternAsString) {
         String[] subStrings = patternAsString.split("/");
         int height = subStrings.length;
         int width = subStrings[0].length();
@@ -17,7 +17,7 @@ public class H1Utils {
         return thePattern;
     }
 
-    public static String booleanArrayToString(boolean[][] pattern) {
+    public static String convertArrayOfArrayOfBooleanToString(boolean[][] pattern) {
         StringBuilder builder = new StringBuilder("\n");
 
         for (int i = 0; i < pattern.length; i++) {

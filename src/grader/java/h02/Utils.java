@@ -8,6 +8,10 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Utils {
 
+    public static final int WORLD_WIDTH = 4;
+
+    public static final int WORLD_HEIGHT = 4;
+
     public static Robot[] getRandomRobotArray(int minimalArrayLength, int width, int height) {
         Robot[] robots = new Robot[ThreadLocalRandom.current().nextInt(minimalArrayLength, width * height)];
         int x, y;

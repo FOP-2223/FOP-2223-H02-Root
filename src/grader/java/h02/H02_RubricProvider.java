@@ -1,6 +1,8 @@
 package h02;
 
 import h02.h1.InitializeRobotsPatternTest;
+import h02.h3.h3_1.NumberOfNullRobotsTest;
+import h02.h3.h3_2.GenerateThreeDistinctRandomIndicesTest;
 import org.sourcegrade.jagr.api.rubric.*;
 
 import java.lang.reflect.Method;
@@ -26,7 +28,7 @@ public class H02_RubricProvider implements RubricProvider {
         .addChildCriteria(
             DEFAULT_CRITERION.apply(
                 "Number of elements equal to null is correctly calculated.",
-                () -> H3_1.class.getDeclaredMethod("testNumberOfNullRobots")
+                () -> NumberOfNullRobotsTest.class.getDeclaredMethod("testNumberOfNullRobots", String.class)
             )
         )
         .build();
@@ -37,19 +39,19 @@ public class H02_RubricProvider implements RubricProvider {
         .addChildCriteria(
             DEFAULT_CRITERION.apply(
                 "All constructed arrays contain exactly 3 elements.",
-                () -> H3_2.class.getDeclaredMethod("testLength")
+                () -> GenerateThreeDistinctRandomIndicesTest.class.getDeclaredMethod("testLength")
             ),
             DEFAULT_CRITERION.apply(
                 "All generated elements are different.",
-                () -> H3_2.class.getDeclaredMethod("testDissimilarityOfElements")
+                () -> GenerateThreeDistinctRandomIndicesTest.class.getDeclaredMethod("testDissimilarityOfElements")
             ),
             DEFAULT_CRITERION.apply(
                 "All generated elements are larger or equal to 0 and smaller than given bound.",
-                () -> H3_2.class.getDeclaredMethod("testBounds")
+                () -> GenerateThreeDistinctRandomIndicesTest.class.getDeclaredMethod("testBounds")
             ),
             DEFAULT_CRITERION.apply(
                 "All generated Arrays are not always the same.",
-                () -> H3_2.class.getDeclaredMethod("testDissimilarityOfArrays")
+                () -> GenerateThreeDistinctRandomIndicesTest.class.getDeclaredMethod("testDissimilarityOfArrays")
             )
         )
         .build();

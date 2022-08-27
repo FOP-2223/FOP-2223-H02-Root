@@ -1,5 +1,7 @@
-package h02;
+package h02.h3.h3_2;
 
+import h02.Main;
+import h02.Utils;
 import org.junit.jupiter.api.Test;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 
@@ -9,7 +11,8 @@ import java.util.concurrent.ThreadLocalRandom;
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestForSubmission("h02")
-class H3_2 {
+public
+class GenerateThreeDistinctRandomIndicesTest {
 
     int[] arrayWithDistinctRandomIndices;
 
@@ -91,7 +94,7 @@ class H3_2 {
         int equals = 0;
         for (int i = 0; i < 10000; i++) {
             arrayWithDistinctRandomIndices = Main.generateThreeDistinctRandomIndices(3);
-            if (comparator.equals(arrayWithDistinctRandomIndices))
+            if (Arrays.equals(comparator, arrayWithDistinctRandomIndices))
                 equals++;
             comparator = arrayWithDistinctRandomIndices;
         }

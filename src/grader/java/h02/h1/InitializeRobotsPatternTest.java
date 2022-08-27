@@ -8,20 +8,18 @@ import h02.Main;
 import h02.Utils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 
-import static h02.h1.H1Utils.booleanArrayToString;
+import static h02.h1.H1Utils.convertArrayOfArrayOfBooleanToString;
 import static org.junit.jupiter.api.Assertions.*;
+import static h02.Utils.WORLD_WIDTH;
+import static h02.Utils.WORLD_HEIGHT;
 
 
 @TestForSubmission("h02")
 public class InitializeRobotsPatternTest {
-
-    private static final int WORLD_WIDTH = 4;
-    private static final int WORLD_HEIGHT = 4;
 
     @BeforeAll
     static void setup() {
@@ -43,9 +41,9 @@ public class InitializeRobotsPatternTest {
 
     // Method works with unfit pattern
     @ParameterizedTest
-    @CsvFileSource(resources = {"/h1/biggerPattern.csv", "/h1/smallerPattern.csv", "/h1/unfittingPattern.csv"})
+    @CsvFileSource(resources = "/h1/unfittingPatterns.csv")
     void testNotFittingPatterns(String patternAsString) {
-        boolean[][] notFittingPattern = H1Utils.stringToPatternConverter(patternAsString);
+        boolean[][] notFittingPattern = H1Utils.convertStringToPattern(patternAsString);
         testNumberOfRobots(notFittingPattern);
         doesNotThrowException(notFittingPattern);
         testCoins(notFittingPattern);
@@ -55,37 +53,37 @@ public class InitializeRobotsPatternTest {
 
     // Number of robots after method call is correct
     @ParameterizedTest
-    @CsvFileSource(resources = "/h1/fittingPattern.csv")
+    @CsvFileSource(resources = "/h1/fittingPatterns.csv")
     void testNumberOfRobotsWithFittingPattern(String patternAsString) {
-        boolean[][] fittingPattern = H1Utils.stringToPatternConverter(patternAsString);
+        boolean[][] fittingPattern = H1Utils.convertStringToPattern(patternAsString);
         testNumberOfRobots(fittingPattern);
     }
 
     // All coins are correctly set
     @ParameterizedTest
-    @CsvFileSource(resources = "/h1/fittingPattern.csv")
+    @CsvFileSource(resources = "/h1/fittingPatterns.csv")
     void testCoinsWithFittingPattern(String patternAsString) {
-        testCoins(H1Utils.stringToPatternConverter(patternAsString));
+        testCoins(H1Utils.convertStringToPattern(patternAsString));
     }
 
     // All robots face right after method call
     @ParameterizedTest
-    @CsvFileSource(resources = "/h1/fittingPattern.csv")
+    @CsvFileSource(resources = "/h1/fittingPatterns.csv")
     void testDirectionsWithFittingPattern(String patternAsString) {
-        testDirections(H1Utils.stringToPatternConverter(patternAsString));
+        testDirections(H1Utils.convertStringToPattern(patternAsString));
     }
 
     // All robots are at the correct coordinates
     @ParameterizedTest
-    @CsvFileSource(resources = "/h1/fittingPattern.csv")
+    @CsvFileSource(resources = "/h1/fittingPatterns.csv")
     void testCoordinatesWithFittingPattern(String patternAsString) {
-        testCoordinates(H1Utils.stringToPatternConverter(patternAsString));
+        testCoordinates(H1Utils.convertStringToPattern(patternAsString));
     }
 
     private void doesNotThrowException(boolean[][] pattern) {
         assertDoesNotThrow(
             () -> Main.initializeRobotsPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT),
-            Utils.getGeneralInfo("Pattern:\n" + booleanArrayToString(pattern)) +
+            Utils.getGeneralInfo("Pattern:\n" + convertArrayOfArrayOfBooleanToString(pattern)) +
                 "The method \"initializeRobotsArray\" threw an Exception when processing the pattern above!"
         );
     }
@@ -109,7 +107,7 @@ public class InitializeRobotsPatternTest {
         assertEquals(
             expectedNumberOfRobots,
             actualNumberOfRobots,
-            Utils.getGeneralInfo("Pattern:\n" + booleanArrayToString(pattern)) +
+            Utils.getGeneralInfo("Pattern:\n" + convertArrayOfArrayOfBooleanToString(pattern)) +
                 "Expected " + expectedNumberOfRobots + " robots in the world but there were actually " + actualNumberOfRobots + "."
         );
     }
@@ -127,7 +125,7 @@ public class InitializeRobotsPatternTest {
                 assertEquals(
                     expectedCoins,
                     actualCoins,
-                    Utils.getGeneralInfo("Pattern:\n" + booleanArrayToString(pattern)) +
+                    Utils.getGeneralInfo("Pattern:\n" + convertArrayOfArrayOfBooleanToString(pattern)) +
                         "Expected robot " + robot + " to have " + expectedCoins + " coins but it has " + actualCoins + "."
                 );
             }
@@ -146,7 +144,7 @@ public class InitializeRobotsPatternTest {
                 assertEquals(
                     expectedDirection,
                     actualDirection,
-                    Utils.getGeneralInfo("Pattern:\n" + booleanArrayToString(pattern)) +
+                    Utils.getGeneralInfo("Pattern:\n" + convertArrayOfArrayOfBooleanToString(pattern)) +
                         "Expected robot " + robot + " to face " + expectedDirection + " but it actually faces " + actualDirection + "."
                 );
             }
@@ -168,11 +166,11 @@ public class InitializeRobotsPatternTest {
         assertArrayEquals(
             worldSizePattern,
             actualPattern,
-            Utils.getGeneralInfo("Pattern:\n" + booleanArrayToString(pattern)) +
+            Utils.getGeneralInfo("Pattern:\n" + convertArrayOfArrayOfBooleanToString(pattern)) +
                 "Expected the robots to be arranged like this:" +
-                booleanArrayToString(worldSizePattern) +
+                convertArrayOfArrayOfBooleanToString(worldSizePattern) +
                 "\nBut they are arranged like this:" +
-                booleanArrayToString(actualPattern)
+                convertArrayOfArrayOfBooleanToString(actualPattern)
         );
     }
 
