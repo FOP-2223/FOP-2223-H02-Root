@@ -1,5 +1,6 @@
 package h02;
 
+import h02.h1.InitializeRobotsPatternTest;
 import org.sourcegrade.jagr.api.rubric.*;
 
 import java.lang.reflect.Method;
@@ -81,19 +82,23 @@ public class H02_RubricProvider implements RubricProvider {
         .addChildCriteria(
             DEFAULT_CRITERION.apply(
                 "The number of initialized robots is correct.",
-                () -> H1.class.getDeclaredMethod("testNumberOfRobots")
+                () -> InitializeRobotsPatternTest.class.getDeclaredMethod("testNumberOfRobotsWithFittingPattern", String.class)
             ),
             DEFAULT_CRITERION.apply(
                 "All robots are spawned at the correct coordinates.",
-                () -> H1.class.getDeclaredMethod("testRobotCoordinates")
+                () -> InitializeRobotsPatternTest.class.getDeclaredMethod("testCoordinatesWithFittingPattern", String.class)
             ),
             DEFAULT_CRITERION.apply(
                 "All robots have the correct amount of coins.",
-                () -> H1.class.getDeclaredMethod("testRobotCoins")
+                () -> InitializeRobotsPatternTest.class.getDeclaredMethod("testCoinsWithFittingPattern", String.class)
             ),
             DEFAULT_CRITERION.apply(
                 "All robots face to the right.",
-                () -> H1.class.getDeclaredMethod("testRobotDirections")
+                () -> InitializeRobotsPatternTest.class.getDeclaredMethod("testDirectionsWithFittingPattern", String.class)
+            ),
+            DEFAULT_CRITERION.apply(
+                "The method can handle patterns that do not fit the world size.",
+                () -> InitializeRobotsPatternTest.class.getDeclaredMethod("testNotFittingPatterns", String.class)
             )
         )
         .build();

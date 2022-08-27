@@ -32,6 +32,7 @@ dependencies {
     "graderCompileOnly"("org.sourcegrade:jagr-launcher:0.4.0") {
         exclude("org.jetbrains", "annotations")
     }
+    "graderImplementation"("fr.inria.gforge.spoon:spoon-core:10.1.1")
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
     implementation("org.sourcegrade:fopbot:0.3.0")
 }
