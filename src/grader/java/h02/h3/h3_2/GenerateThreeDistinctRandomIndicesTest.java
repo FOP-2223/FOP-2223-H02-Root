@@ -2,11 +2,12 @@ package h02.h3.h3_2;
 
 import h02.Main;
 import h02.Utils;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.concurrent.ThreadLocalRandom;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,23 +15,32 @@ import static org.junit.jupiter.api.Assertions.*;
 public
 class GenerateThreeDistinctRandomIndicesTest {
 
-    int[] arrayWithDistinctRandomIndices;
+    static final int BOUND = 3;
+    static final int NUMBER_OF_SAMPLES = 100;
+    static final int EXPECTED_LENGTH = 3;
 
-    String arrayAsString;
+    static final ArrayList<int[]> arraySamples = new ArrayList<>();
+    static int[] comparator;
 
-    final int EXPECTED_LENGTH = 3;
+    @BeforeAll
+    static void setup() {
+        for (int i = 0; i < NUMBER_OF_SAMPLES; i++) {
+            arraySamples.add(Main.generateThreeDistinctRandomIndices(BOUND));
+        }
+        comparator = Main.generateThreeDistinctRandomIndices(BOUND);
+    }
 
     @Test
     void testLength() {
         int actualLength;
-        for (int i = 0; i < 1000; i++) {
-            arrayWithDistinctRandomIndices = Main.generateThreeDistinctRandomIndices(3);
-            actualLength = arrayWithDistinctRandomIndices.length;
-            arrayAsString = Arrays.toString(arrayWithDistinctRandomIndices);
+        String arrayAsString;
+        for (int[] sample : arraySamples) {
+            actualLength = sample.length;
+            arrayAsString = Arrays.toString(sample);
             assertEquals(
                 EXPECTED_LENGTH,
                 actualLength,
-                Utils.getGeneralInfo("Generated array: " + Arrays.toString(arrayWithDistinctRandomIndices)) +
+                Utils.getGeneralInfo("Generated array: " + arrayAsString) +
                     "Expected each array to contain 3 elements but the generated array contains " + actualLength + " elements!"
             );
         }
@@ -38,29 +48,27 @@ class GenerateThreeDistinctRandomIndicesTest {
 
     @Test
     void testDissimilarityOfElements() {
-        int bound;
-        for (int i = 0; i < 100; i++) {
-            bound = ThreadLocalRandom.current().nextInt(2,256);
-            arrayWithDistinctRandomIndices = Main.generateThreeDistinctRandomIndices(bound);
-            arrayAsString = Arrays.toString(arrayWithDistinctRandomIndices);
+        String arrayAsString;
+        for (int[] sample : arraySamples) {
+            arrayAsString = Arrays.toString(sample);
             assertNotEquals(
-                arrayWithDistinctRandomIndices[0],
-                arrayWithDistinctRandomIndices[1],
-                Utils.getGeneralInfo("Generated array: " + Arrays.toString(arrayWithDistinctRandomIndices)) +
+                sample[0],
+                sample[1],
+                Utils.getGeneralInfo("Generated array: " + arrayAsString) +
                     "Expected each array to contain distinct elements but in the generated array the elements at index 0 and 1 are equal!"
             );
 
             assertNotEquals(
-                arrayWithDistinctRandomIndices[0],
-                arrayWithDistinctRandomIndices[2],
-                Utils.getGeneralInfo("Generated array: " + Arrays.toString(arrayWithDistinctRandomIndices)) +
+                sample[0],
+                sample[2],
+                Utils.getGeneralInfo("Generated array: " + arrayAsString) +
                     "Expected each array to contain distinct elements but in the generated array the elements at index 0 and 2 are equal!"
             );
 
             assertNotEquals(
-                arrayWithDistinctRandomIndices[1],
-                arrayWithDistinctRandomIndices[2],
-                Utils.getGeneralInfo("Generated array: " + Arrays.toString(arrayWithDistinctRandomIndices)) +
+                sample[1],
+                sample[2],
+                Utils.getGeneralInfo("Generated array: " + arrayAsString) +
                     "Expected each array to contain distinct elements but in the generated array the elements at index 1 and 2 are equal!"
             );
         }
@@ -68,20 +76,18 @@ class GenerateThreeDistinctRandomIndicesTest {
 
     @Test
     void testBounds() {
-        int bound;
-        for (int i = 0; i < 100; i++) {
-            bound = ThreadLocalRandom.current().nextInt(2,256);
-            arrayWithDistinctRandomIndices = Main.generateThreeDistinctRandomIndices(bound);
-            arrayAsString = Arrays.toString(arrayWithDistinctRandomIndices);
-            for (int j = 0; j < arrayWithDistinctRandomIndices.length; j++) {
+        String arrayAsString;
+        for (int[] sample : arraySamples) {
+            arrayAsString = Arrays.toString(sample);
+            for (int j = 0; j < sample.length; j++) {
                 assertTrue(
-                    arrayWithDistinctRandomIndices[j] < bound,
-                    Utils.getGeneralInfo("Generated array: " + Arrays.toString(arrayWithDistinctRandomIndices)) +
-                        "Bound was " + bound + " but element at index " + j + " in the generated array is larger!"
+                    sample[j] < BOUND,
+                    Utils.getGeneralInfo("Generated array: " + arrayAsString) +
+                        "Bound was " + BOUND + " but element at index " + j + " in the generated array is larger!"
                 );
                 assertTrue(
-                    arrayWithDistinctRandomIndices[j] >= 0,
-                    Utils.getGeneralInfo("Generated array: " + Arrays.toString(arrayWithDistinctRandomIndices)) +
+                    sample[j] >= 0,
+                    Utils.getGeneralInfo("Generated array: " + arrayAsString) +
                         "Expected each element to be greater than 0 but element at index " + j + " in the generated array is smaller!"
                 );
             }
@@ -90,18 +96,16 @@ class GenerateThreeDistinctRandomIndicesTest {
 
     @Test
     void testDissimilarityOfArrays() {
-        int[] comparator = Main.generateThreeDistinctRandomIndices(3);
         int equals = 0;
-        for (int i = 0; i < 10000; i++) {
-            arrayWithDistinctRandomIndices = Main.generateThreeDistinctRandomIndices(3);
-            if (Arrays.equals(comparator, arrayWithDistinctRandomIndices))
+        for (int[] sample : arraySamples) {
+            if (Arrays.equals(comparator, sample))
                 equals++;
-            comparator = arrayWithDistinctRandomIndices;
+            comparator = sample;
         }
         assertNotEquals(
-            10000,
+            100,
             equals,
-            Utils.getGeneralInfo("Generated array was always: " + Arrays.toString(arrayWithDistinctRandomIndices)) +
+            Utils.getGeneralInfo("Generated array was always: " + Arrays.toString(arraySamples.get(0))) +
                 "Method was supposed to randomly generate arrays but all of the samples were the same!"
         );
     }

@@ -3,6 +3,8 @@ package h02;
 import h02.h1.InitializeRobotsPatternTest;
 import h02.h3.h3_1.NumberOfNullRobotsTest;
 import h02.h3.h3_2.GenerateThreeDistinctRandomIndicesTest;
+import h02.h3.h3_3.SortArrayTest;
+import h02.h3.h3_4.SwapRobotsTest;
 import org.sourcegrade.jagr.api.rubric.*;
 
 import java.lang.reflect.Method;
@@ -62,7 +64,7 @@ public class H02_RubricProvider implements RubricProvider {
         .addChildCriteria(
             DEFAULT_CRITERION.apply(
                 "All arrays are sorted correctly.",
-                () -> H3_3.class.getDeclaredMethod("testSortArray")
+                () -> SortArrayTest.class.getDeclaredMethod("testSorting", String.class)
             )
         )
         .build();
@@ -73,7 +75,7 @@ public class H02_RubricProvider implements RubricProvider {
         .addChildCriteria(
             DEFAULT_CRITERION.apply(
                 "Swapping of robots works correctly.",
-                () -> H3_4.class.getDeclaredMethod("testSwapRobots")
+                () -> SwapRobotsTest.class.getDeclaredMethod("testSwapRobots")
             )
         )
         .build();

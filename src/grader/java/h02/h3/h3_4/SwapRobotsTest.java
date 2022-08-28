@@ -1,6 +1,8 @@
-package h02;
+package h02.h3.h3_4;
 import fopbot.Robot;
 import fopbot.World;
+import h02.Main;
+import h02.Utils;
 import org.junit.jupiter.api.Test;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 
@@ -10,7 +12,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestForSubmission("h02")
-class H3_4 {
+public class SwapRobotsTest {
 
     String generalInformation;
 

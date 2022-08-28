@@ -16,4 +16,13 @@ public class H3Utils {
         return builder.toString();
     }
 
+    public static int[] convertStringToIntArray(String arrayAsString) {
+        String[] split = arrayAsString.split("/");
+        int[] array = new int[split.length];
+        for (int i = 0; i < split.length; i++) {
+            array[i] = Integer.parseInt(split[i]);
+        }
+        return array;
+    }
+
 }
