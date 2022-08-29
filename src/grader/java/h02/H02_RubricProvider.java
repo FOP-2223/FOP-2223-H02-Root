@@ -5,6 +5,7 @@ import h02.h3.h3_1.NumberOfNullRobotsTest;
 import h02.h3.h3_2.GenerateThreeDistinctRandomIndicesTest;
 import h02.h3.h3_3.SortArrayTest;
 import h02.h3.h3_4.SwapRobotsTest;
+import h02.h3.h3_5.LetAllRobotsGoTest;
 import org.sourcegrade.jagr.api.rubric.*;
 
 import java.lang.reflect.Method;
@@ -75,7 +76,34 @@ public class H02_RubricProvider implements RubricProvider {
         .addChildCriteria(
             DEFAULT_CRITERION.apply(
                 "Swapping of robots works correctly.",
-                () -> SwapRobotsTest.class.getDeclaredMethod("testSwapRobots")
+                () -> SwapRobotsTest.class.getDeclaredMethod("testSwapping", String.class, int.class, int.class, int.class)
+            )
+        )
+        .build();
+
+    private static final Criterion CRITERION_H3_5 = Criterion
+        .builder()
+        .shortDescription("H3.5: Die Hauptschleife")
+        .addChildCriteria(
+            DEFAULT_CRITERION.apply(
+                "Method correctly works with an array containing only null.",
+                () -> LetAllRobotsGoTest.class.getDeclaredMethod("testNullArray")
+            ),
+            DEFAULT_CRITERION.apply(
+                "Method does not throw any exceptions.",
+                () -> LetAllRobotsGoTest.class.getDeclaredMethod("checkForExceptions", String.class)
+            ),
+            DEFAULT_CRITERION.apply(
+                "Robots do not perform actions other than move or put a coin.",
+                () -> LetAllRobotsGoTest.class.getDeclaredMethod("checkActions", String.class)
+            ),
+            DEFAULT_CRITERION.apply(
+                "All robots move to the end.",
+                () -> LetAllRobotsGoTest.class.getDeclaredMethod("testAllRobotsReachEnd", String.class)
+            ),
+            DEFAULT_CRITERION.apply(
+                "All robots put the correct amount of coins.",
+                () -> LetAllRobotsGoTest.class.getDeclaredMethod("testAllRobotsPutCoins", String.class)
             )
         )
         .build();
@@ -110,12 +138,21 @@ public class H02_RubricProvider implements RubricProvider {
     private static final Criterion CRITERION_H3 = Criterion
         .builder()
         .shortDescription("H3: Die Hauptschleife")
-        .addChildCriteria(CRITERION_H3_1, CRITERION_H3_2, CRITERION_H3_3, CRITERION_H3_4)
+        .addChildCriteria(
+            CRITERION_H3_1,
+            CRITERION_H3_2,
+            CRITERION_H3_3,
+            CRITERION_H3_4,
+            CRITERION_H3_5
+        )
         .build();
 
     private static final Rubric RUBRIC = Rubric.builder()
         .title("H02: ")
-        .addChildCriteria(CRITERION_H1, CRITERION_H3)
+        .addChildCriteria(
+            CRITERION_H1,
+            CRITERION_H3
+        )
         .build();
 
     @Override
