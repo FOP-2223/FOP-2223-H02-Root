@@ -9,12 +9,14 @@ import org.junit.jupiter.params.provider.CsvFileSource;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static h02.h3.H3Utils.convertStringToRobotArray;
+import static h02.h3.H3Utils.*;
 import static h02.Utils.WORLD_WIDTH;
 import static h02.Utils.WORLD_HEIGHT;
 
 @TestForSubmission("h02")
 public class SwapRobotsTest {
+
+    private static final String PATH_TO_CSV = "/h3/swapRobotArrays.csv";
 
     @BeforeAll
     static void setup() {
@@ -22,7 +24,7 @@ public class SwapRobotsTest {
     }
 
     @ParameterizedTest
-    @CsvFileSource(resources = "/h3/swapRobotArrays.csv")
+    @CsvFileSource(resources = PATH_TO_CSV)
     void testSwapping(String robotArrayAsString, int i, int j, int k) {
         Robot[] array = convertStringToRobotArray(robotArrayAsString);
         Robot[] reference = array.clone();
@@ -30,8 +32,8 @@ public class SwapRobotsTest {
         Main.swapRobots(new int[]{i, j, k}, array);
 
         String generalInformation = Utils.getGeneralInfo(
-            "Array before: " + Utils.robotArrayToString(reference) +
-                "\nArray afterwards: " + Utils.robotArrayToString(array)
+            "Array before: " + convertRobotArrayToString(reference) +
+                "\nArray afterwards: " + convertRobotArrayToString(array)
         );
 
         assertSame(

@@ -14,8 +14,10 @@ import static h02.h3.H3Utils.convertStringToIntArray;
 @TestForSubmission("h02")
 public class SortArrayTest {
 
+    private static final String PATH_TO_CSV = "/h3/arraysToSort.csv";
+
     @ParameterizedTest
-    @CsvFileSource(resources = "/h3/arraysToSort.csv")
+    @CsvFileSource(resources = PATH_TO_CSV)
     void testSorting(String arrayAsString) {
         int[] actual = convertStringToIntArray(arrayAsString);
         int[] expected = actual.clone();

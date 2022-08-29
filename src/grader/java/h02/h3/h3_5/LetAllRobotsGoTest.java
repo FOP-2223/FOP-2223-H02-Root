@@ -4,7 +4,6 @@ import fopbot.*;
 import h02.Main;
 import h02.Utils;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
@@ -22,7 +21,9 @@ import static h02.Utils.*;
 @TestForSubmission("h02")
 public class LetAllRobotsGoTest {
 
-    private static ArrayList<Transition.RobotAction> unexpectedActions = new ArrayList<>();
+    private static final String PATH_TO_CSV = "/h3/patterns.csv";
+
+    private static final ArrayList<Transition.RobotAction> unexpectedActions = new ArrayList<>();
 
     /*
 
@@ -48,16 +49,6 @@ public class LetAllRobotsGoTest {
         );
     }
 
-    @BeforeEach
-    void resetWorld() {
-        //World.reset();
-    }
-
-    @Test
-    void strings() {
-        Utils.patternForLetAllRobotsGoProvider();
-    }
-
     @Test
     void testNullArray() {
         World.reset();
@@ -74,7 +65,7 @@ public class LetAllRobotsGoTest {
     }
 
     @ParameterizedTest
-    @CsvFileSource(resources = "/h1/fittingPatterns.csv")
+    @CsvFileSource(resources = PATH_TO_CSV)
     void checkForExceptions(String arrayAsString) {
         Robot[] robots = convertStringToRobotArrayWithCoordinates(arrayAsString);
 
@@ -85,7 +76,7 @@ public class LetAllRobotsGoTest {
     }
 
     @ParameterizedTest
-    @CsvFileSource(resources = "/h1/fittingPatterns.csv")
+    @CsvFileSource(resources = PATH_TO_CSV)
     void checkActions(String arrayAsString) {
         Robot[] robots = convertStringToRobotArrayWithCoordinates(arrayAsString);
         Main.letAllRobotsGo(robots);
@@ -102,7 +93,7 @@ public class LetAllRobotsGoTest {
     }
 
     @ParameterizedTest
-    @CsvFileSource(resources = "/h1/fittingPatterns.csv")
+    @CsvFileSource(resources = PATH_TO_CSV)
     void testAllRobotsReachEnd(String arrayAsString) {
         Robot[] robots = convertStringToRobotArrayWithCoordinates(arrayAsString);
         Robot[] robotsCopy = Arrays.copyOf(robots, robots.length);
@@ -133,7 +124,7 @@ public class LetAllRobotsGoTest {
     }
 
     @ParameterizedTest
-    @CsvFileSource(resources = "/h1/fittingPatterns.csv")
+    @CsvFileSource(resources = PATH_TO_CSV)
     void testAllRobotsPutCoins(String arrayAsString) {
         Robot[] robots = convertStringToRobotArrayWithCoordinates(arrayAsString);
         Robot[] robotsCopy = Arrays.copyOf(robots, robots.length);

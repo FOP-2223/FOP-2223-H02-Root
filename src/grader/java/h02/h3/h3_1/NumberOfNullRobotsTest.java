@@ -16,13 +16,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @TestForSubmission("h02")
 public class NumberOfNullRobotsTest {
 
+    private static final String PATH_TO_CSV = "/h3/robotArrays.csv";
+
     @BeforeAll
     static void setup() {
         World.setSize(WORLD_WIDTH, WORLD_HEIGHT);
     }
 
     @ParameterizedTest
-    @CsvFileSource(resources = "/h3/robotArrays.csv")
+    @CsvFileSource(resources = PATH_TO_CSV)
     void testNumberOfNullRobots(String robotArray) {
         RobotArrayProvider provider = new RobotArrayProvider(robotArray);
 

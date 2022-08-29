@@ -21,6 +21,9 @@ import static h02.Utils.WORLD_HEIGHT;
 @TestForSubmission("h02")
 public class InitializeRobotsPatternTest {
 
+    private static final String PATH_TO_CSV = "/h1/fittingPatterns.csv";
+    private static final String PATH_TO_CSV_2 = "/h1/unfittingPatterns.csv";
+
     @BeforeAll
     static void setup() {
         World.setSize(WORLD_WIDTH, WORLD_HEIGHT);
@@ -39,9 +42,8 @@ public class InitializeRobotsPatternTest {
      */
 
 
-    // Method works with unfit pattern
     @ParameterizedTest
-    @CsvFileSource(resources = "/h1/unfittingPatterns.csv")
+    @CsvFileSource(resources = PATH_TO_CSV_2)
     void testNotFittingPatterns(String patternAsString) {
         boolean[][] notFittingPattern = H1Utils.convertStringToPattern(patternAsString);
         testNumberOfRobots(notFittingPattern);
@@ -51,31 +53,27 @@ public class InitializeRobotsPatternTest {
         testCoordinates(notFittingPattern);
     }
 
-    // Number of robots after method call is correct
     @ParameterizedTest
-    @CsvFileSource(resources = "/h1/fittingPatterns.csv")
+    @CsvFileSource(resources = PATH_TO_CSV)
     void testNumberOfRobotsWithFittingPattern(String patternAsString) {
         boolean[][] fittingPattern = H1Utils.convertStringToPattern(patternAsString);
         testNumberOfRobots(fittingPattern);
     }
 
-    // All coins are correctly set
     @ParameterizedTest
-    @CsvFileSource(resources = "/h1/fittingPatterns.csv")
+    @CsvFileSource(resources = PATH_TO_CSV)
     void testCoinsWithFittingPattern(String patternAsString) {
         testCoins(H1Utils.convertStringToPattern(patternAsString));
     }
 
-    // All robots face right after method call
     @ParameterizedTest
-    @CsvFileSource(resources = "/h1/fittingPatterns.csv")
+    @CsvFileSource(resources = PATH_TO_CSV)
     void testDirectionsWithFittingPattern(String patternAsString) {
         testDirections(H1Utils.convertStringToPattern(patternAsString));
     }
 
-    // All robots are at the correct coordinates
     @ParameterizedTest
-    @CsvFileSource(resources = "/h1/fittingPatterns.csv")
+    @CsvFileSource(resources = PATH_TO_CSV)
     void testCoordinatesWithFittingPattern(String patternAsString) {
         testCoordinates(H1Utils.convertStringToPattern(patternAsString));
     }
