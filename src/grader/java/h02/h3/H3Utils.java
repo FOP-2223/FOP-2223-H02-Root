@@ -4,6 +4,18 @@ import fopbot.Robot;
 
 public class H3Utils {
 
+    public static Robot[] convertStringToRobotArray(String arrayAsString) {
+        Robot[] robots = new Robot[arrayAsString.length()];
+        for (int i = 0; i < robots.length; i++) {
+            if (arrayAsString.charAt(i) == '0') {
+                robots[i] = null;
+            } else {
+                robots[i] = new Robot(0, 0);
+            }
+        }
+        return robots;
+    }
+
     public static String convertRobotArrayToString(Robot[] allRobots) {
         StringBuilder builder = new StringBuilder("\n");
         builder.append("[");
