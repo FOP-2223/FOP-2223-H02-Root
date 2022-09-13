@@ -37,7 +37,47 @@ public class Main {
         boolean[][] testPattern = patternProvider.getPattern();
 
         Robot[] allRobots = initializeRobotsPattern(testPattern, numberOfColumns, numberOfRows);
-        letAllRobotsGo(allRobots);
+        //letRobotsMarch(allRobots);
+    }
+
+    /**
+     * Counts the number of robots in a pattern, given a specified world size.
+     *
+     * @param pattern           The pattern for the robots.
+     * @param numberOfColumns   Number of columns in the world.
+     * @param numberOfRows      Number of rows in the world.
+     * @return                  Number of robots in the world.
+     */
+    public static int countRobotsInPattern(boolean[][] pattern, int numberOfColumns, int numberOfRows) {
+        // Number of robots that are present in the pattern and also satisfy conditions (a) - (e)
+        int numberOfRobots = 0;
+
+        // Loop through the columns of the world. Satisfies condition (a)
+        for (int x = 0; x < numberOfColumns; x++) {
+
+            // Loop through the rows of the world. Satisfies condition (b)
+            for (int y = 0; y < numberOfRows; y++) {
+
+                // Condition (c)
+                boolean c = x < pattern.length;
+
+                // Condition (d), only satisfiable if (c) is met
+                boolean d = c && y < pattern[x].length;
+
+                // Condition (e), only satisfiable if (c) AND (d) are met
+                boolean e = c && d && pattern[x][y];
+
+                // Iff (if and only if) all five conditions are met, increase number of robots
+                if (c && d && e) {
+                    numberOfRobots++;
+                }
+
+                // Note that conditions can be summarized in one if-statement
+            }
+        }
+
+        // Return the number of robots
+        return numberOfRobots;
     }
 
     /**
@@ -49,159 +89,63 @@ public class Main {
      * @return                  Correctly initialized allRobots array.
      */
     public static Robot[] initializeRobotsPattern(boolean[][] pattern, int numberOfColumns, int numberOfRows) {
-        // Number of robots that need to be stored in the array allRobots
-        int numberOfRobots = 0;
+        // Initialize Robot-array with a call of countRobotsInPattern
+        Robot[] allRobots = new Robot[countRobotsInPattern(pattern, numberOfColumns, numberOfRows)];
 
-        // Find number of robots to instantiate allRobots-array:
-        // Loop through rows of the world. Satisfies condition (a)
-        for (int y = 0; y < numberOfRows; y++) {
-
-            // Loop through columns of the world. Satisfies condition (b)
-            for (int x = 0; x < numberOfColumns; x++) {
-
-                // Condition (c)
-                boolean c = y < pattern.length;
-
-                // Condition (d), only satisfiable if (c) is met
-                boolean d = c && x < pattern[y].length;
-
-                // Condition (e), only satisfiable if (c) and (d) are met
-                boolean e = c && d && pattern[y][x];
-
-                // Iff all five conditions are met, increase number of robots by one
-                if(c && d && e) {
-                    numberOfRobots++;
-                }
-            }
-        }
-
-        // Initialize allRobots-array with the number of robots
-        Robot[] allRobots = new Robot[numberOfRobots];
-
-        // Index for the robots
+        // Index for the robots since we can not use x or y of the for-loops for our allRobots-array
         int indexForRobot = 0;
 
-        // Fill the allRobots-array with robots:
-        // Loop through rows of the world. Satisfies condition (a)
-        for (int y = 0; y < numberOfRows; y++) {
+        // Loop through the columns of the world. Satisfies condition (a)
+        for (int x = 0; x < numberOfColumns; x++) {
 
-            // Loop through columns of the world. Satisfies condition (b)
-            for (int x = 0; x < numberOfColumns; x++) {
+            // Loop through the rows of the world. Satisfies condition (b)
+            for (int y = 0; y < numberOfRows; y++) {
 
                 // Condition (c)
-                boolean c = y < pattern.length;
+                boolean c = x < pattern.length;
 
                 // Condition (d), only satisfiable if (c) is met
-                boolean d = c && x < pattern[y].length;
+                boolean d = c && y < pattern[x].length;
 
-                // Condition (e), only satisfiable if (c) and (d) are met
-                boolean e = c && d && pattern[y][x];
+                // Condition (e), only satisfiable if (c) AND (d) are met
+                boolean e = c && d && pattern[x][y];
 
-                // Iff all five conditions are met, create a new Robot with coordinates x, y,
-                // direction = RIGHT and numberOfCoins = numberOfColumns - x
-                if(c && d && e) {
+                // Iff (if and only if) all five conditions are met, create a new Robot with
+                // coordinates x, y, direction = RIGHT and numberOfCoins = numberOfColumns - x
+                if (c && d && e) {
+
+                    // Initialize Robot, note that indexForRobot++ increases indexForRobot AFTER this line is executed
                     allRobots[indexForRobot++] = new Robot(x, y, Direction.RIGHT, numberOfColumns - x);
                 }
             }
         }
 
-        // Return array containing the robots
+
+        // Do you see a drawback of using arrays?
+
+
+        // Return the array containing the Robots
         return allRobots;
-    }
-
-    /**
-     * Lets all robots in the given array walk to the right while also putting down coins.
-     * If robots leave the world they are set to null.
-     * After the steps are made, if more than three robots exist, three of them change their index.
-     * If more than 2 components of the array are null, the array is reduced by the amount of null components.
-     *
-     * @param allRobots   Array containing all the robots.
-     */
-    public static void letAllRobotsGo(Robot[] allRobots) {
-        // Main loop ("Hauptschleife")
-        // Only continues if there are non-null elements in the allRobots array
-        while(numberOfNullRobots(allRobots) != allRobots.length) {
-
-            // Loop through allRobots-array
-            for (int i = 0; i < allRobots.length; i++) {
-
-                // Check whether robot exists at index i
-                if(allRobots[i] != null) {
-
-                    // Put coin
-                    allRobots[i].putCoin();
-
-                    // Check whether robot would leave world
-                    if((allRobots[i].getX() + 1) != World.getWidth()) {
-
-                        // If not, make robot move
-                        allRobots[i].move();
-                    } else {
-
-                        // If yes, set robot to null
-                        allRobots[i] = null;
-                    }
-
-
-                }
-            }
-
-            // Check whether we have at least 3 components
-            if (allRobots.length >= 3) {
-
-                // Get random indices i, j and k
-                int[] indices = generateThreeDistinctRandomIndices(allRobots.length);
-
-                // Sort indices-array
-                sortArray(indices);
-
-                // Swap the robots
-                swapRobots(indices, allRobots);
-            }
-
-            // Get number of null elements in allRobots
-            int l = numberOfNullRobots(allRobots);
-
-            // If number is equal or greater than 3, create new array
-            if (l >= 3) {
-
-                // Initialize new array with updated length
-                Robot[] tmp = new Robot[allRobots.length - l];
-
-                // Initialize index for looping through array
-                int index = 0;
-
-                // Loop through existing array
-                for (Robot roby : allRobots) {
-
-                    // Add robot to new array, if robot is not null
-                    if(roby != null) {
-                        tmp[index++] = roby;
-                    }
-                }
-
-                // Assign allRobots to new array
-                allRobots = tmp;
-            }
-        }
     }
 
     /**
      * Returns how many of the components of the given robot-array are null.
      *
-     * @param allRobots   The robot-array.
-     * @return            Number of null elements in the array.
+     * @param allRobots   The Robot-array.
+     * @return            True, if array contains robot.
      */
     public static int numberOfNullRobots(Robot[] allRobots) {
         // Initialize counter for null elements
         int counter = 0;
 
-        // Loop through allRobots array
-        for (Robot roby : allRobots)
+        // Loop through allRobots array, can also be done using a classic fori loop
+        for (Robot roby : allRobots) {
 
             // If array contains null element, increase counter
-            if (roby == null)
+            if (roby == null) {
                 counter++;
+            }
+        }
 
         // Return counter
         return counter;
@@ -218,13 +162,15 @@ public class Main {
         int i = 0, j = 0,  k = 0;
 
         // Create three distinct, random Integer-values
+        // Using a while-loop guarantees that each index is distinct
+        // Do you have a better idea for solving this problem?
         while (i == j || i == k || k == j) {
             i = ThreadLocalRandom.current().nextInt(bound);
             j = ThreadLocalRandom.current().nextInt(bound);
             k = ThreadLocalRandom.current().nextInt(bound);
         }
 
-        // Return array containing the random values
+        // Return array containing the random values, using the faster array creation method explained in H1.2
         return new int[]{i, j, k};
     }
 
@@ -282,5 +228,100 @@ public class Main {
 
         // Assign robot k to i
         allRobots[i] = tmp;
+
+        // This way you only have to create one temporary Robot-object, meaning less memory used
+    }
+
+    /**
+     * Reduces the given robot array by the set amount and only keeps non-null components.
+     *
+     * @param robots    The array to be reduced.
+     * @param reduceBy  The number of indices that are reduced.
+     * @return          The reduced array.
+     */
+    public static Robot[] reduceRobotArray(Robot[] robots, int reduceBy) {
+        // Create new Robot-array with less space
+        Robot[] newArray = new Robot[robots.length - reduceBy];
+
+        // Create index for new Robot-array, same reason as in H1.1 (countRobotsInPattern and H1.2 (initializeRobotsPattern)
+        int index = 0;
+
+        // Loop through old array to find non-null Robot-objects using an advanced for-loop
+        for (Robot robot : robots) {
+
+            // Check whether component is non-null
+            if (robot != null) {
+
+                // Iff it is non-null, add it to the new array
+                // Again, note that index++ increases index afterwards
+                newArray[index++] = robot;
+            }
+        }
+
+        // Return the new arrrrrrrrrrrrrrrrrrrrray, hurray
+        return newArray;
+    }
+
+    /**
+     * Lets all robots in the given array walk to the right while also putting down coins.
+     * If robots leave the world they are set to null.
+     * After the steps are made, if more than three robots exist, three of them change their index.
+     * If 3 or more components of the array are null, the array is reduced by the amount of null components.
+     *
+     * @param allRobots   Array containing all the robots.
+     */
+    public static void letRobotsMarch(Robot[] allRobots) {
+        // Main loop ("Hauptschleife")
+        // Call numberOfNullRobots to ensure there are non-null elements in the array
+        while(numberOfNullRobots(allRobots) != allRobots.length) {
+
+            // Loop through allRobots-array
+            for (int i = 0; i < allRobots.length; i++) {
+
+                // Check whether robot exists at index i
+                if(allRobots[i] != null) {
+
+                    // Put coin
+                    allRobots[i].putCoin();
+
+                    // Check whether robot would leave world
+                    if((allRobots[i].getX() + 1) != World.getWidth()) {
+
+                        // If not, make robot move
+                        allRobots[i].move();
+                    } else {
+
+                        // If yes, set robot to null
+                        allRobots[i] = null;
+                    }
+                }
+            }
+
+            // Check whether we have at least 3 components
+            // That is important since all methods only work with three or more components
+            if (allRobots.length >= 3) {
+
+                // Call generateThreeDistinctRandomIndices to get random indices i, j and k
+                int[] indices = generateThreeDistinctRandomIndices(allRobots.length);
+
+                // Call sortArray to sort the newly generated indices-array
+                sortArray(indices);
+
+                // Call swapRobots to swap the robots in allRobots
+                swapRobots(indices, allRobots);
+            }
+
+            // Call numberOfNullRobots to get number of null components in allRobots
+            int l = numberOfNullRobots(allRobots);
+
+            // If number is equal or greater than 3, reduce the array
+            if (l >= 3) {
+
+                // Call reduceRobotArray to reduce the array by l
+                allRobots = reduceRobotArray(allRobots, l);
+            }
+
+            // This way all the previously implemented methods are called
+        }
     }
 }
