@@ -31,12 +31,13 @@ public class PatternProvider {
     }
 
     private boolean[][] stringsToPattern(String[] patternAsStrings) {
-        boolean[][] pattern = new boolean[patternAsStrings.length][patternAsStrings[0].length()];
+        boolean[][] pattern = new boolean[patternAsStrings[0].length()][patternAsStrings.length];
 
-        for (int i = patternAsStrings.length - 1; i >= 0; i--) {
-            char[] chars = patternAsStrings[i].toCharArray();
-            for (int j = 0; j < chars.length; j++)
-                pattern[patternAsStrings.length - 1 - i][j] = chars[j] == '1';
+        for (int y = patternAsStrings.length - 1; y >= 0; y--) {
+            char[] chars = patternAsStrings[y].toCharArray();
+            for (int x = 0; x < patternAsStrings[y].length(); x++) {
+                pattern[x][patternAsStrings.length - 1 - y] = chars[x] == '1';
+            }
         }
 
         return pattern;
