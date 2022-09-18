@@ -38,6 +38,7 @@ public class InitializeRobotsPatternTest {
     /*
 
     TODO: Test for use of for-loops
+    TODO: Test for use of countRobotsInPattern
 
      */
 

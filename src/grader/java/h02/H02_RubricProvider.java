@@ -5,7 +5,7 @@ import h02.h3.h3_1.NumberOfNullRobotsTest;
 import h02.h3.h3_2.GenerateThreeDistinctRandomIndicesTest;
 import h02.h3.h3_3.SortArrayTest;
 import h02.h3.h3_4.SwapRobotsTest;
-import h02.h3.h3_5.LetAllRobotsGoTest;
+import h02.h4.LetAllRobotsGoTest;
 import org.sourcegrade.jagr.api.rubric.*;
 
 import java.lang.reflect.Method;

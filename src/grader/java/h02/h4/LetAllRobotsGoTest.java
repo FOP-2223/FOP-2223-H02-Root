@@ -1,4 +1,4 @@
-package h02.h3.h3_5;
+package h02.h4;
 
 import fopbot.*;
 import h02.Main;
@@ -52,7 +52,7 @@ public class LetAllRobotsGoTest {
     @Test
     void testNullArray() {
         World.reset();
-        Main.letAllRobotsGo(new Robot[]{null, null, null});
+        Main.letRobotsMarch(new Robot[]{null, null, null});
         List<RobotTrace> listOfTraces = World.getGlobalWorld().getTraces();
 
         for (RobotTrace trace : listOfTraces) {
@@ -70,7 +70,7 @@ public class LetAllRobotsGoTest {
         Robot[] robots = convertStringToRobotArrayWithCoordinates(arrayAsString);
 
         assertDoesNotThrow(
-            () -> Main.letAllRobotsGo(robots),
+            () -> Main.letRobotsMarch(robots),
             "Expected letAllRobotsGo to not throw an exception!"
         );
     }
@@ -79,7 +79,7 @@ public class LetAllRobotsGoTest {
     @CsvFileSource(resources = PATH_TO_CSV)
     void checkActions(String arrayAsString) {
         Robot[] robots = convertStringToRobotArrayWithCoordinates(arrayAsString);
-        Main.letAllRobotsGo(robots);
+        Main.letRobotsMarch(robots);
         for (RobotTrace trace : World.getGlobalWorld().getTraces()) {
             for (Transition transition : trace.getTransitions()) {
                 assertFalse(
@@ -97,7 +97,7 @@ public class LetAllRobotsGoTest {
     void testAllRobotsReachEnd(String arrayAsString) {
         Robot[] robots = convertStringToRobotArrayWithCoordinates(arrayAsString);
         Robot[] robotsCopy = Arrays.copyOf(robots, robots.length);
-        Main.letAllRobotsGo(robots);
+        Main.letRobotsMarch(robots);
 
         for (Robot roby : robotsCopy) {
             if (roby == null)
@@ -129,7 +129,7 @@ public class LetAllRobotsGoTest {
         Robot[] robots = convertStringToRobotArrayWithCoordinates(arrayAsString);
         Robot[] robotsCopy = Arrays.copyOf(robots, robots.length);
 
-        Main.letAllRobotsGo(robots);
+        Main.letRobotsMarch(robots);
 
         for (Robot roby : robotsCopy) {
             if (roby == null)
