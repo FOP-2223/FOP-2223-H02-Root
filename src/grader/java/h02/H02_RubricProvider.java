@@ -1,6 +1,6 @@
 package h02;
 
-import h02.h1.InitializeRobotsPatternTest;
+import h02.h1.h1_2.InitializeRobotsPatternTest;
 import h02.h3.h3_1.NumberOfNullRobotsTest;
 import h02.h3.h3_2.GenerateThreeDistinctRandomIndicesTest;
 import h02.h3.h3_3.SortArrayTest;

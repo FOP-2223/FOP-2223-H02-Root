@@ -22,21 +22,16 @@ public class CountRobotsInPatternTest {
     @ParameterizedTest
     @CsvFileSource(resources = PATH_TO_CSV)
     void testFittingPattern(String patternAsString, int expected) {
-        boolean[][] pattern = H1Utils.convertStringToPattern(patternAsString);
-        int actual = Main.countRobotsInPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT);
-
-        assertEquals(
-            expected,
-            actual,
-            Utils.getGeneralInfo("Pattern:\n" + convertArrayOfArrayOfBooleanToString(pattern)) +
-                "Expected method to return " + expected + " but it actually returned " + actual + "."
-        );
+        testCounting(H1Utils.convertStringToPattern(patternAsString), expected);
     }
 
     @ParameterizedTest
     @CsvFileSource(resources = PATH_TO_CSV_2)
     void testUnFittingPattern(String patternAsString, int expected) {
-        boolean[][] pattern = H1Utils.convertStringToPattern(patternAsString);
+        testCounting(H1Utils.convertStringToPattern(patternAsString), expected);
+    }
+
+    private void testCounting(boolean[][] pattern, int expected) {
         int actual = Main.countRobotsInPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT);
 
         assertEquals(

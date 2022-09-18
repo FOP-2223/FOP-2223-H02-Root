@@ -1,4 +1,4 @@
-package h02.h1;
+package h02.h1.h1_2;
 
 import fopbot.Direction;
 import fopbot.FieldEntity;
@@ -6,27 +6,31 @@ import fopbot.Robot;
 import fopbot.World;
 import h02.Main;
 import h02.Utils;
+import h02.h1.H1Utils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 
+import static h02.Utils.*;
 import static h02.h1.H1Utils.convertArrayOfArrayOfBooleanToString;
 import static org.junit.jupiter.api.Assertions.*;
-import static h02.Utils.WORLD_WIDTH;
-import static h02.Utils.WORLD_HEIGHT;
 
 
 @TestForSubmission("h02")
 public class InitializeRobotsPatternTest {
 
-    private static final String PATH_TO_CSV = "/h1/fittingPatterns.csv";
-    private static final String PATH_TO_CSV_2 = "/h1/unfittingPatterns.csv";
+    private static final String PATH_TO_CSV = "/h1/h1_2/FittingPatterns.csv";
+    private static final String PATH_TO_CSV_2 = "/h1/h1_2/UnfittingPatterns.csv";
+
+    private static final String MAIN = getMainAsString();
 
     @BeforeAll
     static void setup() {
         World.setSize(WORLD_WIDTH, WORLD_HEIGHT);
+        World.setDelay(0);
     }
 
     @BeforeEach
@@ -37,7 +41,6 @@ public class InitializeRobotsPatternTest {
 
     /*
 
-    TODO: Test for use of for-loops
     TODO: Test for use of countRobotsInPattern
 
      */
@@ -45,9 +48,9 @@ public class InitializeRobotsPatternTest {
 
     @ParameterizedTest
     @CsvFileSource(resources = PATH_TO_CSV_2)
-    void testNotFittingPatterns(String patternAsString) {
+    void testNotFittingPatterns(String patternAsString, int expected) {
         boolean[][] notFittingPattern = H1Utils.convertStringToPattern(patternAsString);
-        testNumberOfRobots(notFittingPattern);
+        testNumberOfRobots(notFittingPattern, expected);
         doesNotThrowException(notFittingPattern);
         testCoins(notFittingPattern);
         testDirections(notFittingPattern);
@@ -56,9 +59,8 @@ public class InitializeRobotsPatternTest {
 
     @ParameterizedTest
     @CsvFileSource(resources = PATH_TO_CSV)
-    void testNumberOfRobotsWithFittingPattern(String patternAsString) {
-        boolean[][] fittingPattern = H1Utils.convertStringToPattern(patternAsString);
-        testNumberOfRobots(fittingPattern);
+    void testNumberOfRobotsWithFittingPattern(String patternAsString, int expected) {
+        testNumberOfRobots(H1Utils.convertStringToPattern(patternAsString), expected);
     }
 
     @ParameterizedTest
@@ -79,6 +81,11 @@ public class InitializeRobotsPatternTest {
         testCoordinates(H1Utils.convertStringToPattern(patternAsString));
     }
 
+    @Test
+    void testUseOfCountRobotsInPattern() {
+
+    }
+
     private void doesNotThrowException(boolean[][] pattern) {
         assertDoesNotThrow(
             () -> Main.initializeRobotsPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT),
@@ -87,27 +94,18 @@ public class InitializeRobotsPatternTest {
         );
     }
 
-    private void testNumberOfRobots(boolean[][] pattern) {
+    private void testNumberOfRobots(boolean[][] pattern, int expected) {
         Main.initializeRobotsPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT);
 
-        int expectedNumberOfRobots = 0;
         int actualNumberOfRobots = World.getGlobalWorld().getAllFieldEntities().size();
 
         boolean[][] worldSizePattern = H1Utils.getWorldSizeRobotPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT);
 
-        for (int y = 0; y < WORLD_HEIGHT; y++) {
-            for (int x = 0; x < WORLD_WIDTH; x++) {
-                if (worldSizePattern[y][x]) {
-                    expectedNumberOfRobots++;
-                }
-            }
-        }
-
         assertEquals(
-            expectedNumberOfRobots,
+            expected,
             actualNumberOfRobots,
             Utils.getGeneralInfo("Pattern:\n" + convertArrayOfArrayOfBooleanToString(pattern)) +
-                "Expected " + expectedNumberOfRobots + " robots in the world but there were actually " + actualNumberOfRobots + "."
+                "Expected " + expected + " robots in the world but there were actually " + actualNumberOfRobots + "."
         );
     }
 
@@ -158,7 +156,7 @@ public class InitializeRobotsPatternTest {
 
         for (FieldEntity robot : World.getGlobalWorld().getAllFieldEntities()) {
             if (robot instanceof Robot) {
-                actualPattern[robot.getY()][robot.getX()] = true;
+                actualPattern[robot.getX()][robot.getY()] = true;
             }
         }
 
