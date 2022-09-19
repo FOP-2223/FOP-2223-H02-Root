@@ -21,22 +21,40 @@ public class Main {
     public static final String FILENAME = "ExamplePattern.txt";
 
     public static void main(String[] args) {
+        // Get number of columns from method
         int numberOfColumns = getRandomWorldSize();
+
+        // Get number of rows from method
         int numberOfRows = getRandomWorldSize();
+
+        // Initialize World with specified number of columns and rows
         World.setSize(numberOfColumns, numberOfRows);
+
+        // Set the internal delay of the world
         World.setDelay(DELAY);
+
+        // Set the world visible
         World.setVisible(true);
+
+        // Print out size of the world to the command line
         System.out.println("Size of world: " + numberOfColumns + "x" + numberOfRows);
 
+        // Initialize new Main-object to call methods
+        Main main = new Main();
+
+        // Initialize a pattern provider for the .txt-file in resources
         PatternProvider patternProvider;
         try {
             patternProvider = new PatternProvider(FILENAME);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        // Get the pattern from the .txt file
         boolean[][] testPattern = patternProvider.getPattern();
 
-        Robot[] allRobots = initializeRobotsPattern(testPattern, numberOfColumns, numberOfRows);
+        // Call initializeRobotsPattern
+        Robot[] allRobots = main.initializeRobotsPattern(testPattern, numberOfColumns, numberOfRows);
         //letRobotsMarch(allRobots);
     }
 
@@ -48,7 +66,7 @@ public class Main {
      * @param numberOfRows      Number of rows in the world.
      * @return                  Number of robots in the world.
      */
-    public static int countRobotsInPattern(boolean[][] pattern, int numberOfColumns, int numberOfRows) {
+    public int countRobotsInPattern(boolean[][] pattern, int numberOfColumns, int numberOfRows) {
         // Number of robots that are present in the pattern and also satisfy conditions (a) - (e)
         int numberOfRobots = 0;
 
@@ -88,7 +106,7 @@ public class Main {
      * @param numberOfRows      Number of rows in world.
      * @return                  Correctly initialized allRobots array.
      */
-    public static Robot[] initializeRobotsPattern(boolean[][] pattern, int numberOfColumns, int numberOfRows) {
+    public Robot[] initializeRobotsPattern(boolean[][] pattern, int numberOfColumns, int numberOfRows) {
         // Initialize Robot-array with a call of countRobotsInPattern
         Robot[] allRobots = new Robot[countRobotsInPattern(pattern, numberOfColumns, numberOfRows)];
 
@@ -134,7 +152,7 @@ public class Main {
      * @param allRobots   The Robot-array.
      * @return            True, if array contains robot.
      */
-    public static int numberOfNullRobots(Robot[] allRobots) {
+    public int numberOfNullRobots(Robot[] allRobots) {
         // Initialize counter for null elements
         int counter = 0;
 
@@ -157,7 +175,7 @@ public class Main {
      * @param bound   The upper bound for the int values.
      * @return        The array.
      */
-    public static int[] generateThreeDistinctRandomIndices(int bound) {
+    public int[] generateThreeDistinctRandomIndices(int bound) {
         // Initialize i, j and k
         int i = 0, j = 0,  k = 0;
 
@@ -179,7 +197,7 @@ public class Main {
      *
      * @param array   The array to be sorted.
      */
-    public static void sortArray(int[] array) {
+    public void sortArray(int[] array) {
         // Swap elements at index 0 and 1, if element at index 0 is bigger
         if (array[0] > array[1]) {
             int tmp = array[0];
@@ -211,7 +229,7 @@ public class Main {
      * @param indices       Array containing indices i, j and k.
      * @param allRobots     Array containing the robots.
      */
-    public static void swapRobots(int[] indices, Robot[] allRobots) {
+    public void swapRobots(int[] indices, Robot[] allRobots) {
         // Assign indices
         int i = indices[0];
         int j = indices[1];
@@ -239,7 +257,7 @@ public class Main {
      * @param reduceBy  The number of indices that are reduced.
      * @return          The reduced array.
      */
-    public static Robot[] reduceRobotArray(Robot[] robots, int reduceBy) {
+    public Robot[] reduceRobotArray(Robot[] robots, int reduceBy) {
         // Create new Robot-array with less space
         Robot[] newArray = new Robot[robots.length - reduceBy];
 
@@ -270,7 +288,7 @@ public class Main {
      *
      * @param allRobots   Array containing all the robots.
      */
-    public static void letRobotsMarch(Robot[] allRobots) {
+    public void letRobotsMarch(Robot[] allRobots) {
         // Main loop ("Hauptschleife")
         // Call numberOfNullRobots to ensure there are non-null elements in the array
         while(numberOfNullRobots(allRobots) != allRobots.length) {

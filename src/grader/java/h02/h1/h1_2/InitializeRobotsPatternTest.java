@@ -10,8 +10,14 @@ import h02.h1.H1Utils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.InvocationInterceptor;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
+import org.mockito.Mock;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
+import org.mockito.invocation.Invocation;
+import org.mockito.stubbing.Answer;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 
 import static h02.Utils.*;
@@ -26,6 +32,7 @@ public class InitializeRobotsPatternTest {
     private static final String PATH_TO_CSV_2 = "/h1/h1_2/UnfittingPatterns.csv";
 
     private static final String MAIN = getMainAsString();
+
 
     @BeforeAll
     static void setup() {
@@ -44,6 +51,15 @@ public class InitializeRobotsPatternTest {
     TODO: Test for use of countRobotsInPattern
 
      */
+
+    @ParameterizedTest
+    @CsvFileSource(resources = PATH_TO_CSV,numLinesToSkip = 999)
+    void testInvocationsOfCountOfRobotsInPattern(String patternAsString, int expected) {
+        Main main = Mockito.spy(Main.class);
+        main.dummy2();
+        Mockito.verify(main).dummy3();
+
+    }
 
 
     @ParameterizedTest
