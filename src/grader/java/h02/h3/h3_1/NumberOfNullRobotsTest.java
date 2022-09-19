@@ -18,6 +18,8 @@ public class NumberOfNullRobotsTest {
 
     private static final String PATH_TO_CSV = "/h3/robotArrays.csv";
 
+    private static final Main main = new Main();
+
     @BeforeAll
     static void setup() {
         World.setSize(WORLD_WIDTH, WORLD_HEIGHT);
@@ -29,7 +31,7 @@ public class NumberOfNullRobotsTest {
         RobotArrayProvider provider = new RobotArrayProvider(robotArray);
 
         int expectedNumberOfNullRobots = provider.numberOfNullElements;
-        int actualNumberOfNullRobots = Main.numberOfNullRobots(provider.robots);
+        int actualNumberOfNullRobots = main.numberOfNullRobots(provider.robots);
 
         assertEquals(
             expectedNumberOfNullRobots,
@@ -42,7 +44,7 @@ public class NumberOfNullRobotsTest {
 
     private static class RobotArrayProvider {
         public Robot[] robots;
-        public int numberOfNullElements = 0;
+        public int numberOfNullElements;
 
         public String information;
 

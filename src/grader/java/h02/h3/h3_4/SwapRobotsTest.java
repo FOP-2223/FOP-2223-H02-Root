@@ -18,6 +18,8 @@ public class SwapRobotsTest {
 
     private static final String PATH_TO_CSV = "/h3/swapRobotArrays.csv";
 
+    private static final Main main = new Main();
+
     @BeforeAll
     static void setup() {
         World.setSize(WORLD_WIDTH, WORLD_HEIGHT);
@@ -29,7 +31,7 @@ public class SwapRobotsTest {
         Robot[] array = convertStringToRobotArray(robotArrayAsString);
         Robot[] reference = array.clone();
 
-        Main.swapRobots(new int[]{i, j, k}, array);
+        main.swapRobots(new int[]{i, j, k}, array);
 
         String generalInformation = Utils.getGeneralInfo(
             "Array before: " + convertRobotArrayToString(reference) +

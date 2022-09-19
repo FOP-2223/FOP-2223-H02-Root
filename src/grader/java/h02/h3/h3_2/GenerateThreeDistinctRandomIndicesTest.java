@@ -22,12 +22,14 @@ class GenerateThreeDistinctRandomIndicesTest {
     static final ArrayList<int[]> arraySamples = new ArrayList<>();
     static int[] comparator;
 
+    private static final Main main = new Main();
+
     @BeforeAll
     static void setup() {
         for (int i = 0; i < NUMBER_OF_SAMPLES; i++) {
-            arraySamples.add(Main.generateThreeDistinctRandomIndices(BOUND));
+            arraySamples.add(main.generateThreeDistinctRandomIndices(BOUND));
         }
-        comparator = Main.generateThreeDistinctRandomIndices(BOUND);
+        comparator = main.generateThreeDistinctRandomIndices(BOUND);
     }
 
     @Test

@@ -19,6 +19,8 @@ public class CountRobotsInPatternTest {
 
     private static final String PATH_TO_CSV_2 = "/h1/h1_1/UnfittingPatterns.csv";
 
+    private static final Main main = new Main();
+
     @ParameterizedTest
     @CsvFileSource(resources = PATH_TO_CSV)
     void testFittingPattern(String patternAsString, int expected) {
@@ -32,7 +34,7 @@ public class CountRobotsInPatternTest {
     }
 
     private void testCounting(boolean[][] pattern, int expected) {
-        int actual = Main.countRobotsInPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT);
+        int actual = main.countRobotsInPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT);
 
         assertEquals(
             expected,

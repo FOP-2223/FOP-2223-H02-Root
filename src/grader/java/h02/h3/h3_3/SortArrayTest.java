@@ -16,12 +16,14 @@ public class SortArrayTest {
 
     private static final String PATH_TO_CSV = "/h3/arraysToSort.csv";
 
+    private static final Main main = new Main();
+
     @ParameterizedTest
     @CsvFileSource(resources = PATH_TO_CSV)
     void testSorting(String arrayAsString) {
         int[] actual = convertStringToIntArray(arrayAsString);
         int[] expected = actual.clone();
-        Main.sortArray(actual);
+        main.sortArray(actual);
         Arrays.sort(expected);
         assertArrayEquals(
             expected,

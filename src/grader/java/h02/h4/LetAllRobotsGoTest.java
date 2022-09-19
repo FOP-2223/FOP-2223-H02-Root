@@ -25,6 +25,8 @@ public class LetAllRobotsGoTest {
 
     private static final ArrayList<Transition.RobotAction> unexpectedActions = new ArrayList<>();
 
+    private static final Main main = new Main();
+
     /*
 
     TODO: Test resize of array
@@ -52,7 +54,7 @@ public class LetAllRobotsGoTest {
     @Test
     void testNullArray() {
         World.reset();
-        Main.letRobotsMarch(new Robot[]{null, null, null});
+        main.letRobotsMarch(new Robot[]{null, null, null});
         List<RobotTrace> listOfTraces = World.getGlobalWorld().getTraces();
 
         for (RobotTrace trace : listOfTraces) {
@@ -70,7 +72,7 @@ public class LetAllRobotsGoTest {
         Robot[] robots = convertStringToRobotArrayWithCoordinates(arrayAsString);
 
         assertDoesNotThrow(
-            () -> Main.letRobotsMarch(robots),
+            () -> main.letRobotsMarch(robots),
             "Expected letAllRobotsGo to not throw an exception!"
         );
     }
@@ -79,7 +81,7 @@ public class LetAllRobotsGoTest {
     @CsvFileSource(resources = PATH_TO_CSV)
     void checkActions(String arrayAsString) {
         Robot[] robots = convertStringToRobotArrayWithCoordinates(arrayAsString);
-        Main.letRobotsMarch(robots);
+        main.letRobotsMarch(robots);
         for (RobotTrace trace : World.getGlobalWorld().getTraces()) {
             for (Transition transition : trace.getTransitions()) {
                 assertFalse(
@@ -97,7 +99,7 @@ public class LetAllRobotsGoTest {
     void testAllRobotsReachEnd(String arrayAsString) {
         Robot[] robots = convertStringToRobotArrayWithCoordinates(arrayAsString);
         Robot[] robotsCopy = Arrays.copyOf(robots, robots.length);
-        Main.letRobotsMarch(robots);
+        main.letRobotsMarch(robots);
 
         for (Robot roby : robotsCopy) {
             if (roby == null)
@@ -129,7 +131,7 @@ public class LetAllRobotsGoTest {
         Robot[] robots = convertStringToRobotArrayWithCoordinates(arrayAsString);
         Robot[] robotsCopy = Arrays.copyOf(robots, robots.length);
 
-        Main.letRobotsMarch(robots);
+        main.letRobotsMarch(robots);
 
         for (Robot roby : robotsCopy) {
             if (roby == null)

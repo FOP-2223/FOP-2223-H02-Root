@@ -10,14 +10,9 @@ import h02.h1.H1Utils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.InvocationInterceptor;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
-import org.mockito.Mock;
-import org.mockito.MockedStatic;
 import org.mockito.Mockito;
-import org.mockito.invocation.Invocation;
-import org.mockito.stubbing.Answer;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 
 import static h02.Utils.*;
@@ -31,7 +26,7 @@ public class InitializeRobotsPatternTest {
     private static final String PATH_TO_CSV = "/h1/h1_2/FittingPatterns.csv";
     private static final String PATH_TO_CSV_2 = "/h1/h1_2/UnfittingPatterns.csv";
 
-    private static final String MAIN = getMainAsString();
+    private static final Main main = new Main();
 
 
     @BeforeAll
@@ -45,20 +40,13 @@ public class InitializeRobotsPatternTest {
         World.reset();
     }
 
-
-    /*
-
-    TODO: Test for use of countRobotsInPattern
-
-     */
-
     @ParameterizedTest
-    @CsvFileSource(resources = PATH_TO_CSV,numLinesToSkip = 999)
-    void testInvocationsOfCountOfRobotsInPattern(String patternAsString, int expected) {
-        Main main = Mockito.spy(Main.class);
-        main.dummy2();
-        Mockito.verify(main).dummy3();
-
+    @CsvFileSource(resources = PATH_TO_CSV)
+    void testInvocationsOfCountOfRobotsInPattern(String patternAsString) {
+        boolean[][] pattern = H1Utils.convertStringToPattern(patternAsString);
+        Main mainSpy = Mockito.spy(Main.class);
+        mainSpy.initializeRobotsPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT);
+        Mockito.verify(mainSpy).countRobotsInPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT);
     }
 
 
@@ -104,18 +92,16 @@ public class InitializeRobotsPatternTest {
 
     private void doesNotThrowException(boolean[][] pattern) {
         assertDoesNotThrow(
-            () -> Main.initializeRobotsPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT),
+            () -> main.initializeRobotsPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT),
             Utils.getGeneralInfo("Pattern:\n" + convertArrayOfArrayOfBooleanToString(pattern)) +
                 "The method \"initializeRobotsArray\" threw an Exception when processing the pattern above!"
         );
     }
 
     private void testNumberOfRobots(boolean[][] pattern, int expected) {
-        Main.initializeRobotsPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT);
+        main.initializeRobotsPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT);
 
         int actualNumberOfRobots = World.getGlobalWorld().getAllFieldEntities().size();
-
-        boolean[][] worldSizePattern = H1Utils.getWorldSizeRobotPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT);
 
         assertEquals(
             expected,
@@ -126,7 +112,7 @@ public class InitializeRobotsPatternTest {
     }
 
     private void testCoins(boolean[][] pattern) {
-        Main.initializeRobotsPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT);
+        main.initializeRobotsPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT);
 
         int expectedCoins;
         int actualCoins;
@@ -146,7 +132,7 @@ public class InitializeRobotsPatternTest {
     }
 
     private void testDirections(boolean[][] pattern) {
-        Main.initializeRobotsPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT);
+        main.initializeRobotsPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT);
 
         Direction expectedDirection = Direction.RIGHT;
         Direction actualDirection;
@@ -165,7 +151,7 @@ public class InitializeRobotsPatternTest {
     }
 
     private void testCoordinates(boolean[][] pattern) {
-        Main.initializeRobotsPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT);
+        main.initializeRobotsPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT);
 
         boolean[][] actualPattern = new boolean[WORLD_HEIGHT][WORLD_WIDTH];
         boolean[][] worldSizePattern = H1Utils.getWorldSizeRobotPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT);
