@@ -17,7 +17,7 @@ public class Utils {
     public static final File MAIN_FILE = new File(DIR + "/src/main/java/h02/Main.java");
 
     public static void main(String[] args)  {
-        providePattern(false, 1000);
+        providePattern(true, 1000);
     }
 
     public static String getMainAsString() {

@@ -5,7 +5,7 @@ import h02.h3.h3_1.NumberOfNullRobotsTest;
 import h02.h3.h3_2.GenerateThreeDistinctRandomIndicesTest;
 import h02.h3.h3_3.SortArrayTest;
 import h02.h3.h3_4.SwapRobotsTest;
-import h02.h4.LetAllRobotsGoTest;
+import h02.h4.LetRobotsMarchTest;
 import org.sourcegrade.jagr.api.rubric.*;
 
 import java.lang.reflect.Method;
@@ -87,23 +87,23 @@ public class H02_RubricProvider implements RubricProvider {
         .addChildCriteria(
             DEFAULT_CRITERION.apply(
                 "Method correctly works with an array containing only null.",
-                () -> LetAllRobotsGoTest.class.getDeclaredMethod("testNullArray")
+                () -> LetRobotsMarchTest.class.getDeclaredMethod("testNullArray")
             ),
             DEFAULT_CRITERION.apply(
                 "Method does not throw any exceptions.",
-                () -> LetAllRobotsGoTest.class.getDeclaredMethod("checkForExceptions", String.class)
+                () -> LetRobotsMarchTest.class.getDeclaredMethod("checkForExceptions", String.class)
             ),
             DEFAULT_CRITERION.apply(
                 "Robots do not perform actions other than move or put a coin.",
-                () -> LetAllRobotsGoTest.class.getDeclaredMethod("checkActions", String.class)
+                () -> LetRobotsMarchTest.class.getDeclaredMethod("checkActions", String.class)
             ),
             DEFAULT_CRITERION.apply(
                 "All robots move to the end.",
-                () -> LetAllRobotsGoTest.class.getDeclaredMethod("testAllRobotsReachEnd", String.class)
+                () -> LetRobotsMarchTest.class.getDeclaredMethod("testAllRobotsReachEnd", String.class)
             ),
             DEFAULT_CRITERION.apply(
                 "All robots put the correct amount of coins.",
-                () -> LetAllRobotsGoTest.class.getDeclaredMethod("testAllRobotsPutCoins", String.class)
+                () -> LetRobotsMarchTest.class.getDeclaredMethod("testAllRobotsPutCoins", String.class)
             )
         )
         .build();

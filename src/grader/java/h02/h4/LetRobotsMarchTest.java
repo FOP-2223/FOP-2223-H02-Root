@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
+import org.mockito.Mockito;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 
 import static h02.h3.H3Utils.convertStringToRobotArrayWithCoordinates;
@@ -19,23 +20,13 @@ import java.util.List;
 import static h02.Utils.*;
 
 @TestForSubmission("h02")
-public class LetAllRobotsGoTest {
+public class LetRobotsMarchTest {
 
-    private static final String PATH_TO_CSV = "/h3/patterns.csv";
+    private static final String PATH_TO_CSV = "/h4/RobotArrays.csv";
 
     private static final ArrayList<Transition.RobotAction> unexpectedActions = new ArrayList<>();
 
     private static final Main main = new Main();
-
-    /*
-
-    TODO: Test resize of array
-
-    TODO: Test use of other methods
-
-    TODO: Test use of for loops
-
-     */
 
     @BeforeAll
     static void setup() {
@@ -49,6 +40,21 @@ public class LetAllRobotsGoTest {
                 )
                 .toList()
         );
+    }
+
+    @Test
+    void testUseOfMethods() {
+        Main mainSpy = Mockito.spy(Main.class);
+        Robot[] robots = new Robot[]{
+            new Robot(0, 0, Direction.RIGHT, 10000),
+            new Robot(1, 1, Direction.RIGHT, 10000),
+            new Robot(2, 2, Direction.RIGHT, 10000),
+        };
+        mainSpy.letRobotsMarch(robots);
+        Mockito.verify(mainSpy, Mockito.atLeastOnce()).numberOfNullRobots(Mockito.any());
+        Mockito.verify(mainSpy, Mockito.atLeastOnce()).generateThreeDistinctRandomIndices(Mockito.anyInt());
+        Mockito.verify(mainSpy, Mockito.atLeastOnce()).sortArray(Mockito.any());
+        Mockito.verify(mainSpy, Mockito.atLeastOnce()).reduceRobotArray(Mockito.any(), Mockito.anyInt());
     }
 
     @Test
@@ -69,10 +75,8 @@ public class LetAllRobotsGoTest {
     @ParameterizedTest
     @CsvFileSource(resources = PATH_TO_CSV)
     void checkForExceptions(String arrayAsString) {
-        Robot[] robots = convertStringToRobotArrayWithCoordinates(arrayAsString);
-
         assertDoesNotThrow(
-            () -> main.letRobotsMarch(robots),
+            () -> main.letRobotsMarch(convertStringToRobotArrayWithCoordinates(arrayAsString)),
             "Expected letAllRobotsGo to not throw an exception!"
         );
     }
