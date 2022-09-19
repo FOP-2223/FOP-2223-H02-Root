@@ -1,10 +1,12 @@
 package h02;
 
+import h02.h1.h1_1.CountRobotsInPatternTest;
 import h02.h1.h1_2.InitializeRobotsPatternTest;
 import h02.h3.h3_1.NumberOfNullRobotsTest;
 import h02.h3.h3_2.GenerateThreeDistinctRandomIndicesTest;
 import h02.h3.h3_3.SortArrayTest;
 import h02.h3.h3_4.SwapRobotsTest;
+import h02.h3.h3_5.ReduceRobotArrayTest;
 import h02.h4.LetRobotsMarchTest;
 import org.sourcegrade.jagr.api.rubric.*;
 
@@ -25,12 +27,67 @@ public class H02_RubricProvider implements RubricProvider {
                 .build())
             .build();
 
+    private static final Criterion CRITERION_H1_1 = Criterion
+        .builder()
+        .shortDescription("H1.1: Zählen von true in einem Array von Array von boolean")
+        .addChildCriteria(
+            DEFAULT_CRITERION.apply(
+                "Method correctly counts the number of robots for a pattern with a size fitting the world.",
+                () -> CountRobotsInPatternTest.class.getDeclaredMethod("testFittingPattern", String.class, int.class)
+            ),
+            DEFAULT_CRITERION.apply(
+                "Method correctly counts the number of robots for a pattern with a size not fitting the world.",
+                () -> CountRobotsInPatternTest.class.getDeclaredMethod("testUnFittingPattern", String.class, int.class)
+            )
+        )
+        .build();
+
+    private static final Criterion CRITERION_H1_2 = Criterion
+        .builder()
+        .shortDescription("H1.2: Erstellen eines Robot-arrays mittels eines Patterns")
+        .addChildCriteria(
+            DEFAULT_CRITERION.apply(
+                "Method uses countRobotsInPattern at least once.",
+                () -> InitializeRobotsPatternTest.class.getDeclaredMethod("testInvocationsOfCountOfRobotsInPattern", String.class)
+            ),
+            DEFAULT_CRITERION.apply(
+                "Method initializes a correct number of robots",
+                () -> InitializeRobotsPatternTest.class.getDeclaredMethod("testNumberOfRobots", boolean[][].class, int.class)
+            ),
+            DEFAULT_CRITERION.apply(
+                "Method initializes robots at the correct coordinates",
+                () -> InitializeRobotsPatternTest.class.getDeclaredMethod("testCoordinates", boolean[][].class)
+            ),
+            DEFAULT_CRITERION.apply(
+                "Method initializes robots with the correct number of coins",
+                () -> InitializeRobotsPatternTest.class.getDeclaredMethod("testCoins", boolean[][].class)
+            ),
+            DEFAULT_CRITERION.apply(
+                "Method initializes robots with the correct direction.",
+                () -> InitializeRobotsPatternTest.class.getDeclaredMethod("testDirections", boolean[][].class)
+            ),
+            DEFAULT_CRITERION.apply(
+                "Method does correct initialization with a pattern that does not fit the world.",
+                () -> InitializeRobotsPatternTest.class.getDeclaredMethod("testNotFittingPatterns", String.class, int.class)
+            )
+        )
+        .build();
+
+    private static final Criterion CRITERION_H1 = Criterion
+        .builder()
+        .shortDescription("H1: Erstellen eines Robot-arrays")
+        .addChildCriteria(
+            CRITERION_H1_1,
+            CRITERION_H1_2
+        )
+        .build();
+
     private static final Criterion CRITERION_H3_1 = Criterion
         .builder()
         .shortDescription("H3.1: Arraykomponenten gleich null")
         .addChildCriteria(
             DEFAULT_CRITERION.apply(
-                "Number of elements equal to null is correctly calculated.",
+                "Number of elements equal to null is correctly counted.",
                 () -> NumberOfNullRobotsTest.class.getDeclaredMethod("testNumberOfNullRobots", String.class)
             )
         )
@@ -83,8 +140,39 @@ public class H02_RubricProvider implements RubricProvider {
 
     private static final Criterion CRITERION_H3_5 = Criterion
         .builder()
+        .shortDescription("H3.5: Reduzieren eines Arrays")
+        .addChildCriteria(
+            DEFAULT_CRITERION.apply(
+                "Method correctly reduzes the array.",
+                () -> ReduceRobotArrayTest.class.getDeclaredMethod("testSize", String.class, int.class)
+            ),
+            DEFAULT_CRITERION.apply(
+                "Method keeps the robots in the same order.",
+                () -> ReduceRobotArrayTest.class.getDeclaredMethod("testRobotsAfterResize", String.class, int.class)
+            )
+        )
+        .build();
+
+    private static final Criterion CRITERION_H3 = Criterion
+        .builder()
+        .shortDescription("H3: Hilfsmethoden für die Hauptschleife")
+        .addChildCriteria(
+            CRITERION_H3_1,
+            CRITERION_H3_2,
+            CRITERION_H3_3,
+            CRITERION_H3_4,
+            CRITERION_H3_5
+        )
+        .build();
+
+    private static final Criterion CRITERION_H4 = Criterion
+        .builder()
         .shortDescription("H3.5: Die Hauptschleife")
         .addChildCriteria(
+            DEFAULT_CRITERION.apply(
+                "Method calls other methods implemented in H3.",
+                () -> LetRobotsMarchTest.class.getDeclaredMethod("testUseOfMethods")
+            ),
             DEFAULT_CRITERION.apply(
                 "Method correctly works with an array containing only null.",
                 () -> LetRobotsMarchTest.class.getDeclaredMethod("testNullArray")
@@ -108,50 +196,12 @@ public class H02_RubricProvider implements RubricProvider {
         )
         .build();
 
-    private static final Criterion CRITERION_H1 = Criterion
-        .builder()
-        .shortDescription("H1: Initialisierungen vor der Hauptschleife")
-        .addChildCriteria(
-            DEFAULT_CRITERION.apply(
-                "The number of initialized robots is correct.",
-                () -> InitializeRobotsPatternTest.class.getDeclaredMethod("testNumberOfRobotsWithFittingPattern", String.class)
-            ),
-            DEFAULT_CRITERION.apply(
-                "All robots are spawned at the correct coordinates.",
-                () -> InitializeRobotsPatternTest.class.getDeclaredMethod("testCoordinatesWithFittingPattern", String.class)
-            ),
-            DEFAULT_CRITERION.apply(
-                "All robots have the correct amount of coins.",
-                () -> InitializeRobotsPatternTest.class.getDeclaredMethod("testCoinsWithFittingPattern", String.class)
-            ),
-            DEFAULT_CRITERION.apply(
-                "All robots face to the right.",
-                () -> InitializeRobotsPatternTest.class.getDeclaredMethod("testDirectionsWithFittingPattern", String.class)
-            ),
-            DEFAULT_CRITERION.apply(
-                "The method can handle patterns that do not fit the world size.",
-                () -> InitializeRobotsPatternTest.class.getDeclaredMethod("testNotFittingPatterns", String.class)
-            )
-        )
-        .build();
-
-    private static final Criterion CRITERION_H3 = Criterion
-        .builder()
-        .shortDescription("H3: Die Hauptschleife")
-        .addChildCriteria(
-            CRITERION_H3_1,
-            CRITERION_H3_2,
-            CRITERION_H3_3,
-            CRITERION_H3_4,
-            CRITERION_H3_5
-        )
-        .build();
-
     private static final Rubric RUBRIC = Rubric.builder()
         .title("H02: ")
         .addChildCriteria(
             CRITERION_H1,
-            CRITERION_H3
+            CRITERION_H3,
+            CRITERION_H4
         )
         .build();
 
