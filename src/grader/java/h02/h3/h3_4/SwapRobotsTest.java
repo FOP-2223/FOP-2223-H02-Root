@@ -16,13 +16,14 @@ import static h02.Utils.WORLD_HEIGHT;
 @TestForSubmission("h02")
 public class SwapRobotsTest {
 
-    private static final String PATH_TO_CSV = "/h3/swapRobotArrays.csv";
+    private static final String PATH_TO_CSV = "/h3/h3_4/RobotArrays.csv";
 
     private static final Main main = new Main();
 
     @BeforeAll
     static void setup() {
         World.setSize(WORLD_WIDTH, WORLD_HEIGHT);
+        World.setDelay(0);
     }
 
     @ParameterizedTest

@@ -14,7 +14,7 @@ import static h02.h3.H3Utils.convertStringToIntArray;
 @TestForSubmission("h02")
 public class SortArrayTest {
 
-    private static final String PATH_TO_CSV = "/h3/arraysToSort.csv";
+    private static final String PATH_TO_CSV = "/h3/h3_3/ArraysToSort.csv";
 
     private static final Main main = new Main();
 

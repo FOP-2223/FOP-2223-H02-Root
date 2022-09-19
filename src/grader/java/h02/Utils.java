@@ -35,53 +35,12 @@ public class Utils {
         return sb.toString();
     }
 
-    public static int getNumberOfMethodInvokes(String method) {
-        String[] strings = getMainAsString().split("\n");
-        int numberMethodInvokes = 0;
-
-        for (int i = 0; i < strings.length; i++) {
-            if (strings[i].contains(getFullMethodDeclaration(method))) {
-                continue;
-            }
-            if (strings[i].contains(method + "(")) {
-                numberMethodInvokes++;
-            }
-        }
-        return numberMethodInvokes;
-    }
-
     public static String getGeneralInfo(String information) {
         StringBuilder builder = new StringBuilder("General Information:\n");
         builder.append("World size: " + WORLD_WIDTH + "x" + WORLD_HEIGHT + "\n");
         builder.append(information);
         builder.append("\nTest failed because:\n");
         return builder.toString();
-    }
-
-    public static String getFullMethodDeclaration(String method) {
-        switch (method) {
-            case "countRobotsInPattern" -> {
-                return "public static int countRobotsInPattern(boolean[][] pattern, int numberOfColumns, int numberOfRows)";
-            }
-            case "numberOfNullRobots" -> {
-                return "public static int numberOfNullRobots(Robot[] allRobots)";
-            }
-            case "generateThreeDistinctRandomIndices" -> {
-                return "public static int[] generateThreeDistinctRandomIndices(int bound)";
-            }
-            case "sortArray" -> {
-                return "public static void sortArray(int[] array)";
-            }
-            case "swapRobots" -> {
-                return "public static void swapRobots(int[] indices, Robot[] allRobots)";
-            }
-            case "reduceRobotArray" -> {
-                return "public static Robot[] reduceRobotArray(Robot[] robots, int reduceBy)";
-            }
-            default -> {
-                return method;
-            }
-        }
     }
 
     public static void providePattern(boolean fitting, int lines) {

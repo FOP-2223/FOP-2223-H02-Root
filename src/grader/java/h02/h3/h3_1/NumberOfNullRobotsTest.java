@@ -16,19 +16,22 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @TestForSubmission("h02")
 public class NumberOfNullRobotsTest {
 
-    private static final String PATH_TO_CSV = "/h3/robotArrays.csv";
+    private static final String PATH_TO_CSV = "/h3/h3_1/RobotArrays.csv";
 
     private static final Main main = new Main();
+
+    RobotArrayProvider provider = new RobotArrayProvider("");
 
     @BeforeAll
     static void setup() {
         World.setSize(WORLD_WIDTH, WORLD_HEIGHT);
+        World.setDelay(0);
     }
 
     @ParameterizedTest
     @CsvFileSource(resources = PATH_TO_CSV)
     void testNumberOfNullRobots(String robotArray) {
-        RobotArrayProvider provider = new RobotArrayProvider(robotArray);
+        provider.reassign(robotArray);
 
         int expectedNumberOfNullRobots = provider.numberOfNullElements;
         int actualNumberOfNullRobots = main.numberOfNullRobots(provider.robots);
@@ -36,7 +39,7 @@ public class NumberOfNullRobotsTest {
         assertEquals(
             expectedNumberOfNullRobots,
             actualNumberOfNullRobots,
-            Utils.getGeneralInfo(provider.information) +
+            Utils.getGeneralInfo(provider.getInformation()) +
                 "Expected number of null elements in array: " + expectedNumberOfNullRobots +
                 ", actual number of null elements in array: " + actualNumberOfNullRobots
         );
@@ -46,9 +49,11 @@ public class NumberOfNullRobotsTest {
         public Robot[] robots;
         public int numberOfNullElements;
 
-        public String information;
-
         RobotArrayProvider(String robotsAsString) {
+            reassign(robotsAsString);
+        }
+
+        void reassign(String robotsAsString) {
             numberOfNullElements = 0;
 
             robots = new Robot[robotsAsString.length()];
@@ -61,10 +66,10 @@ public class NumberOfNullRobotsTest {
                     robots[i] = new Robot(0, 0);
                 }
             }
+        }
 
-            information =
-                "Size of array: " + robots.length +
-                    ", array: " + arrayToString();
+        String getInformation() {
+            return "Size of array: " + robots.length + ", array: " + arrayToString();
         }
 
         String arrayToString() {
