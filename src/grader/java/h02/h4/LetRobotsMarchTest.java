@@ -75,6 +75,7 @@ public class LetRobotsMarchTest {
     @ParameterizedTest
     @CsvFileSource(resources = PATH_TO_CSV)
     void checkForExceptions(String arrayAsString) {
+        World.reset();
         assertDoesNotThrow(
             () -> main.letRobotsMarch(convertStringToRobotArrayWithCoordinates(arrayAsString)),
             "Expected letAllRobotsGo to not throw an exception!"
@@ -101,6 +102,7 @@ public class LetRobotsMarchTest {
     @ParameterizedTest
     @CsvFileSource(resources = PATH_TO_CSV)
     void testAllRobotsReachEnd(String arrayAsString) {
+        World.reset();
         Robot[] robots = convertStringToRobotArrayWithCoordinates(arrayAsString);
         Robot[] robotsCopy = Arrays.copyOf(robots, robots.length);
         main.letRobotsMarch(robots);

@@ -5,6 +5,7 @@ import fopbot.World;
 import h02.Main;
 import h02.h3.H3Utils;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 
@@ -25,6 +26,11 @@ public class ReduceRobotArrayTest {
     static void setup() {
         World.setSize(WORLD_WIDTH, WORLD_HEIGHT);
         World.setDelay(0);
+    }
+
+    @BeforeEach
+    void reset() {
+        World.reset();
     }
 
     @ParameterizedTest
