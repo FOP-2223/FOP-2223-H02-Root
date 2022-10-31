@@ -1,15 +1,14 @@
 package h02.h3.h3_3;
 
 import h02.Main;
-import h02.Utils;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static h02.h3.H3Utils.convertStringToIntArray;
+import static org.tudalgo.algoutils.tutor.general.assertions.Assertions2.*;
 
 @TestForSubmission("h02")
 public class SortArrayTest {
@@ -25,11 +24,20 @@ public class SortArrayTest {
         int[] expected = actual.clone();
         main.sortArray(actual);
         Arrays.sort(expected);
-        assertArrayEquals(
-            expected,
-            actual,
-            Utils.getGeneralInfo("Your sorted array: " + Arrays.toString(actual)) +
-                "Expected the array to be sorted!"
-        );
+
+        var context = contextBuilder()
+            .add("Sorted array", Arrays.toString(expected))
+            .add("Your result", Arrays.toString(actual))
+            .build();
+
+        for (int i = 0; i < expected.length; i++) {
+            int finalI = i;
+            assertEquals(
+                expected[i],
+                actual[i],
+                context,
+                r -> String.format("Expected the array to be sorted but the element at index %d is wrong!", finalI)
+            );
+        }
     }
 }

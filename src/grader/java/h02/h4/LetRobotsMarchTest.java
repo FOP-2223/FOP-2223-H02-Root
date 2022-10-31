@@ -2,7 +2,6 @@ package h02.h4;
 
 import fopbot.*;
 import h02.Main;
-import h02.Utils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -10,8 +9,9 @@ import org.junit.jupiter.params.provider.CsvFileSource;
 import org.mockito.Mockito;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 
+import static h02.h3.H3Utils.convertRobotArrayToString;
 import static h02.h3.H3Utils.convertStringToRobotArrayWithCoordinates;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.tudalgo.algoutils.tutor.general.assertions.Assertions2.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,24 +50,83 @@ public class LetRobotsMarchTest {
             new Robot(1, 1, Direction.RIGHT, 10000),
             new Robot(2, 2, Direction.RIGHT, 10000),
         };
+
+        var context = contextBuilder()
+            .add("Robot-Array", convertRobotArrayToString(robots))
+            .build();
+
         mainSpy.letRobotsMarch(robots);
-        Mockito.verify(mainSpy, Mockito.atLeastOnce()).numberOfNullRobots(Mockito.any());
-        Mockito.verify(mainSpy, Mockito.atLeastOnce()).generateThreeDistinctRandomIndices(Mockito.anyInt());
-        Mockito.verify(mainSpy, Mockito.atLeastOnce()).sortArray(Mockito.any());
-        Mockito.verify(mainSpy, Mockito.atLeastOnce()).reduceRobotArray(Mockito.any(), Mockito.anyInt());
+
+        call(
+            () -> Mockito.verify(mainSpy, Mockito.atLeastOnce()).numberOfNullRobots(Mockito.any()),
+            context,
+            r -> String.format(
+                "Expected method %s to call method %s at least once!",
+                "letRobotsMarch",
+                "numberOfNullRobots"
+            )
+        );
+
+        call(
+            () -> Mockito.verify(mainSpy, Mockito.atLeastOnce()).generateThreeDistinctRandomIndices(Mockito.anyInt()),
+            context,
+            r -> String.format(
+                "Expected method %s to call method %s at least once!",
+                "letRobotsMarch",
+                "generateThreeDistinctRandomIndices"
+            )
+        );
+
+        call(
+            () -> Mockito.verify(mainSpy, Mockito.atLeastOnce()).generateThreeDistinctRandomIndices(Mockito.anyInt()),
+            context,
+            r -> String.format(
+                "Expected method %s to call method %s at least once!",
+                "letRobotsMarch",
+                "generateThreeDistinctRandomIndices"
+            )
+        );
+
+        call(
+            () -> Mockito.verify(mainSpy, Mockito.atLeastOnce()).sortArray(Mockito.any()),
+            context,
+            r -> String.format(
+                "Expected method %s to call method %s at least once!",
+                "letRobotsMarch",
+                "sortArray"
+            )
+        );
+
+        call(
+            () -> Mockito.verify(mainSpy, Mockito.atLeastOnce()).reduceRobotArray(Mockito.any(), Mockito.anyInt()),
+            context,
+            r -> String.format(
+                "Expected method %s to call method %s at least once!",
+                "letRobotsMarch",
+                "reduceRobotArray"
+            )
+        );
     }
 
     @Test
     void testNullArray() {
         World.reset();
-        main.letRobotsMarch(new Robot[]{null, null, null});
+        Robot[] array = {null, null, null};
+        main.letRobotsMarch(array);
         List<RobotTrace> listOfTraces = World.getGlobalWorld().getTraces();
+
+        var context = contextBuilder()
+            .add("Array", Arrays.toString(array))
+            .build();
 
         for (RobotTrace trace : listOfTraces) {
             assertNull(
                 trace,
-                "Expected no traces after using array containing only null, but found the following trace(s):\n" +
+                context,
+                r -> String.format(
+                    "Expected no traces after using array containing only null, but found the following trace(s):\n%s",
                     listOfTraces
+                )
             );
         }
     }
@@ -75,25 +134,39 @@ public class LetRobotsMarchTest {
     @ParameterizedTest
     @CsvFileSource(resources = PATH_TO_CSV)
     void checkForExceptions(String arrayAsString) {
+
+        var context = contextBuilder()
+            .add("Array", arrayAsString)
+            .build();
+
         World.reset();
-        assertDoesNotThrow(
+        call(
             () -> main.letRobotsMarch(convertStringToRobotArrayWithCoordinates(arrayAsString)),
-            "Expected letAllRobotsGo to not throw an exception!"
+            context,
+            r -> "Expected letAllRobotsGo to not throw an exception!"
         );
     }
 
     @ParameterizedTest
     @CsvFileSource(resources = PATH_TO_CSV)
     void checkActions(String arrayAsString) {
+
+        var context = contextBuilder()
+            .add("Array", arrayAsString)
+            .build();
+
         Robot[] robots = convertStringToRobotArrayWithCoordinates(arrayAsString);
         main.letRobotsMarch(robots);
         for (RobotTrace trace : World.getGlobalWorld().getTraces()) {
             for (Transition transition : trace.getTransitions()) {
                 assertFalse(
                     unexpectedActions.contains(transition.action),
-                    "Expected all robots to only ever move or put a coin, but a robot executes action " +
-                    transition.action + " in transition " +
-                    transition
+                    context,
+                    r -> String.format(
+                        "Expected all robots to only ever move or put a coin, but a robot executes action %s in transition %s",
+                        transition.action,
+                        transition
+                    )
                 );
             }
         }
@@ -102,6 +175,11 @@ public class LetRobotsMarchTest {
     @ParameterizedTest
     @CsvFileSource(resources = PATH_TO_CSV)
     void testAllRobotsReachEnd(String arrayAsString) {
+
+        var context = contextBuilder()
+            .add("Array", arrayAsString)
+            .build();
+
         World.reset();
         Robot[] robots = convertStringToRobotArrayWithCoordinates(arrayAsString);
         Robot[] robotsCopy = Arrays.copyOf(robots, robots.length);
@@ -122,11 +200,13 @@ public class LetRobotsMarchTest {
             assertEquals(
                 WORLD_WIDTH - 1,
                 roby.getX(),
-                Utils.getGeneralInfo("") +
-                    "Expected each robot to reach the end of the world but " +
-                    roby + " which started at " + initialX +
-                    " stayed at " +
-                    roby.getX() + "!"
+                context,
+                r -> String.format(
+                    "Expected each robot to reach the end of the world but robot %s which started at %d stayed at %d!",
+                    roby,
+                    initialX,
+                    roby.getX()
+                )
             );
         }
     }
@@ -134,6 +214,11 @@ public class LetRobotsMarchTest {
     @ParameterizedTest
     @CsvFileSource(resources = PATH_TO_CSV)
     void testAllRobotsPutCoins(String arrayAsString) {
+
+        var context = contextBuilder()
+            .add("Array", arrayAsString)
+            .build();
+
         Robot[] robots = convertStringToRobotArrayWithCoordinates(arrayAsString);
         Robot[] robotsCopy = Arrays.copyOf(robots, robots.length);
 
@@ -166,20 +251,25 @@ public class LetRobotsMarchTest {
             assertEquals(
                 expectedNumberOfPutCoinCalls,
                 actualNumberOfPutCoinCalls,
-                Utils.getGeneralInfo("") +
-                    "Expected " + roby +
-                    " to call method \"putCoin()\" " + expectedNumberOfPutCoinCalls +
-                    " times but the robot only called it " + actualNumberOfPutCoinCalls +
-                    " times!"
+                context,
+                r -> String.format(
+                    "Expected robot %s to call method \"putCoin()\" %d times but the robot only called it %d times!",
+                    roby,
+                    expectedNumberOfPutCoinCalls,
+                    actualNumberOfPutCoinCalls
+                )
             );
 
             assertEquals(
                 expectedNumberOfCoins,
                 roby.getNumberOfCoins(),
-                Utils.getGeneralInfo("") +
-                    "Expected each robot to place one coin before movement but " +
-                    roby + " which started at X=" + initialX +
-                    " has " + (actualNumberOfCoins - expectedNumberOfCoins) + " more coins than it should have!"
+                context,
+                r -> String.format(
+                    "Expected each robot to place one coin before movement but robot %s which started at X=%d has %d more coins than it should have!",
+                    roby,
+                    initialX,
+                    (actualNumberOfCoins - expectedNumberOfCoins)
+                )
             );
         }
     }

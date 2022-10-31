@@ -1,7 +1,6 @@
 package h02.h3.h3_2;
 
 import h02.Main;
-import h02.Utils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
@@ -9,7 +8,7 @@ import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.tudalgo.algoutils.tutor.general.assertions.Assertions2.*;
 
 @TestForSubmission("h02")
 public
@@ -34,16 +33,20 @@ class GenerateThreeDistinctRandomIndicesTest {
 
     @Test
     void testLength() {
-        int actualLength;
         String arrayAsString;
         for (int[] sample : arraySamples) {
-            actualLength = sample.length;
+            int actualLength = sample.length;
             arrayAsString = Arrays.toString(sample);
+
+            var context = contextBuilder()
+                .add("Generated array", arrayAsString)
+                .build();
+
             assertEquals(
                 EXPECTED_LENGTH,
                 actualLength,
-                Utils.getGeneralInfo("Generated array: " + arrayAsString) +
-                    "Expected each array to contain 3 elements but the generated array contains " + actualLength + " elements!"
+                context,
+                r -> String.format("Expected each array to contain 3 elements but the generated array contains %d elements!", actualLength)
             );
         }
     }
@@ -53,25 +56,30 @@ class GenerateThreeDistinctRandomIndicesTest {
         String arrayAsString;
         for (int[] sample : arraySamples) {
             arrayAsString = Arrays.toString(sample);
+
+            var context = contextBuilder()
+                .add("Generated array", arrayAsString)
+                .build();
+
             assertNotEquals(
                 sample[0],
                 sample[1],
-                Utils.getGeneralInfo("Generated array: " + arrayAsString) +
-                    "Expected each array to contain distinct elements but in the generated array the elements at index 0 and 1 are equal!"
+                context,
+                r -> "Expected each array to contain distinct elements but in the generated array the elements at index 0 and 1 are equal!"
             );
 
             assertNotEquals(
                 sample[0],
                 sample[2],
-                Utils.getGeneralInfo("Generated array: " + arrayAsString) +
-                    "Expected each array to contain distinct elements but in the generated array the elements at index 0 and 2 are equal!"
+                context,
+                r -> "Expected each array to contain distinct elements but in the generated array the elements at index 0 and 2 are equal!"
             );
 
             assertNotEquals(
                 sample[1],
                 sample[2],
-                Utils.getGeneralInfo("Generated array: " + arrayAsString) +
-                    "Expected each array to contain distinct elements but in the generated array the elements at index 1 and 2 are equal!"
+                context,
+                r -> "Expected each array to contain distinct elements but in the generated array the elements at index 1 and 2 are equal!"
             );
         }
     }
@@ -81,16 +89,22 @@ class GenerateThreeDistinctRandomIndicesTest {
         String arrayAsString;
         for (int[] sample : arraySamples) {
             arrayAsString = Arrays.toString(sample);
+
+            var context = contextBuilder()
+                .add("Generated array", arrayAsString)
+                .build();
+
             for (int j = 0; j < sample.length; j++) {
+                int finalJ = j;
                 assertTrue(
                     sample[j] < BOUND,
-                    Utils.getGeneralInfo("Generated array: " + arrayAsString) +
-                        "Bound was " + BOUND + " but element at index " + j + " in the generated array is larger!"
+                    context,
+                    r -> String.format("Bound was %d but the element at index %d in the generated array is larger!", BOUND, finalJ)
                 );
                 assertTrue(
                     sample[j] >= 0,
-                    Utils.getGeneralInfo("Generated array: " + arrayAsString) +
-                        "Expected each element to be greater than 0 but element at index " + j + " in the generated array is smaller!"
+                    context,
+                    r -> String.format("Expected each element to be greater than 0 but element at index %d in the generated array is smaller!", finalJ)
                 );
             }
         }
@@ -104,11 +118,16 @@ class GenerateThreeDistinctRandomIndicesTest {
                 equals++;
             comparator = sample;
         }
+
+        var context = contextBuilder()
+            .add("All generated arrays", Arrays.toString(arraySamples.get(0)))
+            .build();
+
         assertNotEquals(
             100,
             equals,
-            Utils.getGeneralInfo("Generated array was always: " + Arrays.toString(arraySamples.get(0))) +
-                "Method was supposed to randomly generate arrays but all of the samples were the same!"
+            context,
+            r -> "Method was supposed to randomly generate arrays but all of the samples were the same!"
         );
     }
 }

@@ -29,12 +29,12 @@ val grader: SourceSet by sourceSets.creating {
 }
 
 dependencies {
+    implementation("org.tudalgo:algoutils-tutor:0.4.0")
     implementation("org.jetbrains:annotations:23.0.0")
     implementation("junit:junit:4.13.1")
-    "graderCompileOnly"("org.sourcegrade:jagr-launcher:0.4.0") {
+    "graderCompileOnly"("org.sourcegrade:jagr-launcher:0.6.3") {
         exclude("org.jetbrains", "annotations")
     }
-    "graderImplementation"("fr.inria.gforge.spoon:spoon-core:10.1.1")
     "graderImplementation"("org.mockito:mockito-inline:4.8.0")
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
     implementation("org.tudalgo:fopbot:0.4.1")

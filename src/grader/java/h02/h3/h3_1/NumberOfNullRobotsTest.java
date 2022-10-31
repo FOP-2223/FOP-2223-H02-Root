@@ -3,7 +3,6 @@ package h02.h3.h3_1;
 import fopbot.Robot;
 import fopbot.World;
 import h02.Main;
-import h02.Utils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -12,7 +11,7 @@ import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 
 import static h02.Utils.WORLD_WIDTH;
 import static h02.Utils.WORLD_HEIGHT;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.tudalgo.algoutils.tutor.general.assertions.Assertions2.*;
 
 @TestForSubmission("h02")
 public class NumberOfNullRobotsTest {
@@ -37,6 +36,13 @@ public class NumberOfNullRobotsTest {
     @ParameterizedTest
     @CsvFileSource(resources = PATH_TO_CSV)
     void testNumberOfNullRobots(String robotArray) {
+
+        var context = contextBuilder()
+            .add("World width", WORLD_WIDTH)
+            .add("World height", WORLD_HEIGHT)
+            .add("Robot-Array", robotArray)
+            .build();
+
         provider.reassign(robotArray);
 
         int expectedNumberOfNullRobots = provider.numberOfNullElements;
@@ -45,9 +51,8 @@ public class NumberOfNullRobotsTest {
         assertEquals(
             expectedNumberOfNullRobots,
             actualNumberOfNullRobots,
-            Utils.getGeneralInfo(provider.getInformation()) +
-                "Expected number of null elements in array: " + expectedNumberOfNullRobots +
-                ", actual number of null elements in array: " + actualNumberOfNullRobots
+            context,
+            r -> String.format("Expected method to count %d null elements in array but it actually counted %d.", expectedNumberOfNullRobots, actualNumberOfNullRobots)
         );
     }
 
@@ -72,24 +77,6 @@ public class NumberOfNullRobotsTest {
                     robots[i] = new Robot(0, 0);
                 }
             }
-        }
-
-        String getInformation() {
-            return "Size of array: " + robots.length + ", array: " + arrayToString();
-        }
-
-        String arrayToString() {
-            StringBuilder builder = new StringBuilder("[");
-            for (int i = 0; i < robots.length; i++) {
-                builder.append(
-                    robots[i] != null ? "robot" : "null"
-                );
-                if (i + 1 != robots.length) {
-                    builder.append(", ");
-                }
-            }
-            builder.append("]");
-            return builder.toString();
         }
     }
 

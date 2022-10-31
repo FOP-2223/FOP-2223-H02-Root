@@ -2,16 +2,15 @@ package h02.h3.h3_4;
 import fopbot.Robot;
 import fopbot.World;
 import h02.Main;
-import h02.Utils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static h02.h3.H3Utils.*;
 import static h02.Utils.WORLD_WIDTH;
 import static h02.Utils.WORLD_HEIGHT;
+import static org.tudalgo.algoutils.tutor.general.assertions.Assertions2.*;
 
 @TestForSubmission("h02")
 public class SwapRobotsTest {
@@ -34,31 +33,33 @@ public class SwapRobotsTest {
 
         main.swapRobots(new int[]{i, j, k}, array);
 
-        String generalInformation = Utils.getGeneralInfo(
-            "Array before: " + convertRobotArrayToString(reference) +
-                "\nArray afterwards: " + convertRobotArrayToString(array)
-        );
+        var context = contextBuilder()
+            .add("Robot-Array before swapping", robotArrayAsString)
+            .add("Index i", i)
+            .add("Index j", j)
+            .add("Index k", k)
+            .add("Robot-Array after swapping", convertRobotArrayToString(array))
+            .build();
 
         assertSame(
             reference[i],
             array[j],
-            generalInformation +
-                "Expected Robot from index i = " + i + " to now be at index j = " + j + "!"
+            context,
+            r -> String.format("Expected Robot from index i = %d to now be at index j = %d!", i, j)
         );
 
         assertSame(
             reference[j],
             array[k],
-            generalInformation +
-                "Expected Robot from index j = " + j + " to now be at index k = " + k + "!"
+            context,
+            r -> String.format("Expected Robot from index j = %d to now be at index k = %d!", j, k)
         );
 
         assertSame(
             reference[k],
             array[i],
-            generalInformation +
-                "Expected Robot from index k = " + k + " to now be at index i = " + i + "!"
+            context,
+            r -> String.format("Expected Robot from index k = %d to now be at index i = %d!", k, i)
         );
-
     }
 }

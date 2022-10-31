@@ -5,11 +5,9 @@ import fopbot.FieldEntity;
 import fopbot.Robot;
 import fopbot.World;
 import h02.Main;
-import h02.Utils;
 import h02.h1.H1Utils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.mockito.Mockito;
@@ -17,7 +15,7 @@ import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 
 import static h02.Utils.*;
 import static h02.h1.H1Utils.convertArrayOfArrayOfBooleanToString;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.tudalgo.algoutils.tutor.general.assertions.Assertions2.*;
 
 
 @TestForSubmission("h02")
@@ -46,59 +44,79 @@ public class InitializeRobotsPatternTest {
         boolean[][] pattern = H1Utils.convertStringToPattern(patternAsString);
         Main mainSpy = Mockito.spy(Main.class);
         mainSpy.initializeRobotsPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT);
-        Mockito.verify(mainSpy).countRobotsInPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT);
+
+        call(
+            () -> Mockito.verify(mainSpy).countRobotsInPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT),
+            contextBuilder().add("Pattern", patternAsString).build(),
+            r -> String.format(
+                "Expected method %s to call method %s at least once!",
+                "initializeRobotsPattern",
+                "countRobotsInPattern"
+            )
+        );
     }
 
 
     @ParameterizedTest
     @CsvFileSource(resources = PATH_TO_CSV_2)
     void testNotFittingPatterns(String patternAsString, int expected) {
-        boolean[][] notFittingPattern = H1Utils.convertStringToPattern(patternAsString);
-        testNumberOfRobots(notFittingPattern, expected);
-        doesNotThrowException(notFittingPattern);
-        testCoins(notFittingPattern);
-        testDirections(notFittingPattern);
-        testCoordinates(notFittingPattern);
+        testNumberOfRobots(patternAsString, expected);
+        doesNotThrowException(patternAsString);
+        testCoins(patternAsString);
+        testDirections(patternAsString);
+        testCoordinates(patternAsString);
     }
 
     @ParameterizedTest
     @CsvFileSource(resources = PATH_TO_CSV)
     void testNumberOfRobotsWithFittingPattern(String patternAsString, int expected) {
-        testNumberOfRobots(H1Utils.convertStringToPattern(patternAsString), expected);
+        testNumberOfRobots(patternAsString, expected);
     }
 
     @ParameterizedTest
     @CsvFileSource(resources = PATH_TO_CSV)
     void testCoinsWithFittingPattern(String patternAsString) {
-        testCoins(H1Utils.convertStringToPattern(patternAsString));
+        testCoins(patternAsString);
     }
 
     @ParameterizedTest
     @CsvFileSource(resources = PATH_TO_CSV)
     void testDirectionsWithFittingPattern(String patternAsString) {
-        testDirections(H1Utils.convertStringToPattern(patternAsString));
+        testDirections(patternAsString);
     }
 
     @ParameterizedTest
     @CsvFileSource(resources = PATH_TO_CSV)
     void testCoordinatesWithFittingPattern(String patternAsString) {
-        testCoordinates(H1Utils.convertStringToPattern(patternAsString));
+        testCoordinates(patternAsString);
     }
 
-    @Test
-    void testUseOfCountRobotsInPattern() {
+    private void doesNotThrowException(String patternAsString) {
 
-    }
+        var context = contextBuilder()
+            .add("World width", WORLD_WIDTH)
+            .add("World height", WORLD_HEIGHT)
+            .add("Pattern", patternAsString)
+            .build();
 
-    private void doesNotThrowException(boolean[][] pattern) {
-        assertDoesNotThrow(
+        boolean[][] pattern = H1Utils.convertStringToPattern(patternAsString);
+
+        call(
             () -> main.initializeRobotsPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT),
-            Utils.getGeneralInfo("Pattern:\n" + convertArrayOfArrayOfBooleanToString(pattern)) +
-                "The method \"initializeRobotsArray\" threw an Exception when processing the pattern above!"
+            context,
+            r -> "The method \"initializeRobotsArray\" threw an Exception when processing the pattern!"
         );
     }
 
-    private void testNumberOfRobots(boolean[][] pattern, int expected) {
+    private void testNumberOfRobots(String patternAsString, int expected) {
+
+        var context = contextBuilder()
+            .add("World width", WORLD_WIDTH)
+            .add("World height", WORLD_HEIGHT)
+            .add("Pattern", patternAsString)
+            .build();
+
+        boolean[][] pattern = H1Utils.convertStringToPattern(patternAsString);
         main.initializeRobotsPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT);
 
         int actualNumberOfRobots = World.getGlobalWorld().getAllFieldEntities().size();
@@ -106,51 +124,73 @@ public class InitializeRobotsPatternTest {
         assertEquals(
             expected,
             actualNumberOfRobots,
-            Utils.getGeneralInfo("Pattern:\n" + convertArrayOfArrayOfBooleanToString(pattern)) +
-                "Expected " + expected + " robots in the world but there were actually " + actualNumberOfRobots + "."
+            context,
+            r -> String.format("Expected %d robots in the world but there were actually %d.", expected, actualNumberOfRobots)
         );
     }
 
-    private void testCoins(boolean[][] pattern) {
-        main.initializeRobotsPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT);
+    private void testCoins(String patternAsString) {
 
-        int expectedCoins;
-        int actualCoins;
+        var context = contextBuilder()
+            .add("World width", WORLD_WIDTH)
+            .add("World height", WORLD_HEIGHT)
+            .add("Pattern", patternAsString)
+            .build();
+
+        boolean[][] pattern = H1Utils.convertStringToPattern(patternAsString);
+        main.initializeRobotsPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT);
 
         for (FieldEntity robot : World.getGlobalWorld().getAllFieldEntities()) {
             if (robot instanceof Robot) {
-                expectedCoins = WORLD_WIDTH - robot.getX();
-                actualCoins = ((Robot) robot).getNumberOfCoins();
+                int expectedCoins = WORLD_WIDTH - robot.getX();
+                int actualCoins = ((Robot) robot).getNumberOfCoins();
+
                 assertEquals(
                     expectedCoins,
                     actualCoins,
-                    Utils.getGeneralInfo("Pattern:\n" + convertArrayOfArrayOfBooleanToString(pattern)) +
-                        "Expected robot " + robot + " to have " + expectedCoins + " coins but it has " + actualCoins + "."
+                    context,
+                    r -> String.format("Expected robot %s to have %d coins but it has %d.", robot, expectedCoins, actualCoins)
                 );
             }
         }
     }
 
-    private void testDirections(boolean[][] pattern) {
+    private void testDirections(String patternAsString) {
+
+        var context = contextBuilder()
+            .add("World width", WORLD_WIDTH)
+            .add("World height", WORLD_HEIGHT)
+            .add("Pattern", patternAsString)
+            .build();
+
+        boolean[][] pattern = H1Utils.convertStringToPattern(patternAsString);
         main.initializeRobotsPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT);
 
         Direction expectedDirection = Direction.RIGHT;
-        Direction actualDirection;
 
         for (FieldEntity robot : World.getGlobalWorld().getAllFieldEntities()) {
             if (robot instanceof Robot) {
-                actualDirection = ((Robot) robot).getDirection();
+                Direction actualDirection = ((Robot) robot).getDirection();
+
                 assertEquals(
                     expectedDirection,
                     actualDirection,
-                    Utils.getGeneralInfo("Pattern:\n" + convertArrayOfArrayOfBooleanToString(pattern)) +
-                        "Expected robot " + robot + " to face " + expectedDirection + " but it actually faces " + actualDirection + "."
+                    context,
+                    r -> String.format("Expected robot %s to face %s but it actually faces %s.", robot, expectedDirection, actualDirection)
                 );
             }
         }
     }
 
-    private void testCoordinates(boolean[][] pattern) {
+    private void testCoordinates(String patternAsString) {
+
+        var context = contextBuilder()
+            .add("World width", WORLD_WIDTH)
+            .add("World height", WORLD_HEIGHT)
+            .add("Pattern", patternAsString)
+            .build();
+
+        boolean[][] pattern = H1Utils.convertStringToPattern(patternAsString);
         main.initializeRobotsPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT);
 
         boolean[][] actualPattern = new boolean[WORLD_HEIGHT][WORLD_WIDTH];
@@ -162,14 +202,11 @@ public class InitializeRobotsPatternTest {
             }
         }
 
-        assertArrayEquals(
+        assertEquals(
             worldSizePattern,
             actualPattern,
-            Utils.getGeneralInfo("Pattern:\n" + convertArrayOfArrayOfBooleanToString(pattern)) +
-                "Expected the robots to be arranged like this:" +
-                convertArrayOfArrayOfBooleanToString(worldSizePattern) +
-                "\nBut they are arranged like this:" +
-                convertArrayOfArrayOfBooleanToString(actualPattern)
+            context,
+            r -> String.format("Expected the robots to be arranged like %s \nBut they are arranged like %s", convertArrayOfArrayOfBooleanToString(worldSizePattern), convertArrayOfArrayOfBooleanToString(actualPattern))
         );
     }
 
