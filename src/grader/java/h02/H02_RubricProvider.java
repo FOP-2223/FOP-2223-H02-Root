@@ -29,7 +29,7 @@ public class H02_RubricProvider implements RubricProvider {
 
     private static final Criterion CRITERION_H1_1 = Criterion
         .builder()
-        .shortDescription("H1.1: Zählen von true in einem Array von Array von boolean")
+        .shortDescription("H1.1: Zählen von [[[true]]] in einem Array von Array von [[[boolean]]]")
         .addChildCriteria(
             DEFAULT_CRITERION.apply(
                 "Method correctly counts the number of robots for a pattern with a size fitting the world.",
@@ -44,10 +44,10 @@ public class H02_RubricProvider implements RubricProvider {
 
     private static final Criterion CRITERION_H1_2 = Criterion
         .builder()
-        .shortDescription("H1.2: Erstellen eines Robot-arrays mittels eines Patterns")
+        .shortDescription("H1.2: Erstellen eines [[[Robot]]]-Arrays mittels eines Patterns")
         .addChildCriteria(
             DEFAULT_CRITERION.apply(
-                "Method uses countRobotsInPattern at least once.",
+                "Method uses [[[countRobotsInPattern]]] at least once.",
                 () -> InitializeRobotsPatternTest.class.getDeclaredMethod("testInvocationsOfCountOfRobotsInPattern", String.class)
             ),
             DEFAULT_CRITERION.apply(
@@ -75,19 +75,16 @@ public class H02_RubricProvider implements RubricProvider {
 
     private static final Criterion CRITERION_H1 = Criterion
         .builder()
-        .shortDescription("H1: Erstellen eines Robot-arrays")
-        .addChildCriteria(
-            CRITERION_H1_1,
-            CRITERION_H1_2
-        )
+        .shortDescription("H1: Erstellen eines [[[Robot]]]-Arrays")
+        .addChildCriteria(CRITERION_H1_1, CRITERION_H1_2)
         .build();
 
     private static final Criterion CRITERION_H3_1 = Criterion
         .builder()
-        .shortDescription("H3.1: Arraykomponenten gleich null")
+        .shortDescription("H3.1: Arraykomponenten gleich [[[null]]]")
         .addChildCriteria(
             DEFAULT_CRITERION.apply(
-                "Number of elements equal to null is correctly counted.",
+                "Number of elements equal to [[[null]]] is correctly counted.",
                 () -> NumberOfNullRobotsTest.class.getDeclaredMethod("testNumberOfNullRobots", String.class)
             )
         )
@@ -95,7 +92,7 @@ public class H02_RubricProvider implements RubricProvider {
 
     private static final Criterion CRITERION_H3_2 = Criterion
         .builder()
-        .shortDescription("H3.2: Drei (pseudo-)zufällige int-Werte")
+        .shortDescription("H3.2: Drei (pseudo-)zufällige [[[int]]]-Werte")
         .addChildCriteria(
             DEFAULT_CRITERION.apply(
                 "All constructed arrays contain exactly 3 elements.",
@@ -110,7 +107,7 @@ public class H02_RubricProvider implements RubricProvider {
                 () -> GenerateThreeDistinctRandomIndicesTest.class.getDeclaredMethod("testBounds")
             ),
             DEFAULT_CRITERION.apply(
-                "All generated Arrays are not always the same.",
+                "All generated arrays are not always the same.",
                 () -> GenerateThreeDistinctRandomIndicesTest.class.getDeclaredMethod("testDissimilarityOfArrays")
             )
         )
@@ -118,7 +115,7 @@ public class H02_RubricProvider implements RubricProvider {
 
     private static final Criterion CRITERION_H3_3 = Criterion
         .builder()
-        .shortDescription("H3.3: Sortierung eines 3-elementigen int-Arrays")
+        .shortDescription("H3.3: Sortierung eines 3-elementigen [[[int]]]-Arrays")
         .addChildCriteria(
             DEFAULT_CRITERION.apply(
                 "All arrays are sorted correctly.",
@@ -143,7 +140,7 @@ public class H02_RubricProvider implements RubricProvider {
         .shortDescription("H3.5: Reduzieren eines Arrays")
         .addChildCriteria(
             DEFAULT_CRITERION.apply(
-                "Method correctly reduzes the array.",
+                "Method correctly reduces the array.",
                 () -> ReduceRobotArrayTest.class.getDeclaredMethod("testSize", String.class, int.class)
             ),
             DEFAULT_CRITERION.apply(
@@ -156,13 +153,7 @@ public class H02_RubricProvider implements RubricProvider {
     private static final Criterion CRITERION_H3 = Criterion
         .builder()
         .shortDescription("H3: Hilfsmethoden für die Hauptschleife")
-        .addChildCriteria(
-            CRITERION_H3_1,
-            CRITERION_H3_2,
-            CRITERION_H3_3,
-            CRITERION_H3_4,
-            CRITERION_H3_5
-        )
+        .addChildCriteria(CRITERION_H3_1, CRITERION_H3_2, CRITERION_H3_3, CRITERION_H3_4, CRITERION_H3_5)
         .build();
 
     private static final Criterion CRITERION_H4 = Criterion
@@ -174,7 +165,7 @@ public class H02_RubricProvider implements RubricProvider {
                 () -> LetRobotsMarchTest.class.getDeclaredMethod("testUseOfMethods")
             ),
             DEFAULT_CRITERION.apply(
-                "Method correctly works with an array containing only null.",
+                "Method correctly works with an array containing only [[[null]]].",
                 () -> LetRobotsMarchTest.class.getDeclaredMethod("testNullArray")
             ),
             DEFAULT_CRITERION.apply(
@@ -197,12 +188,8 @@ public class H02_RubricProvider implements RubricProvider {
         .build();
 
     private static final Rubric RUBRIC = Rubric.builder()
-        .title("H02: ")
-        .addChildCriteria(
-            CRITERION_H1,
-            CRITERION_H3,
-            CRITERION_H4
-        )
+        .title("H02 - Let them march")
+        .addChildCriteria(CRITERION_H1, CRITERION_H3, CRITERION_H4)
         .build();
 
     @Override
