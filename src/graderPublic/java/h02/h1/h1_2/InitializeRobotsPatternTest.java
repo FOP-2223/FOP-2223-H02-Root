@@ -202,12 +202,16 @@ public class InitializeRobotsPatternTest {
             }
         }
 
-        assertEquals(
-            worldSizePattern,
-            actualPattern,
-            context,
-            r -> String.format("Expected the robots to be arranged like %s \nBut they are arranged like %s", convertArrayOfArrayOfBooleanToString(worldSizePattern), convertArrayOfArrayOfBooleanToString(actualPattern))
-        );
+        for (int i = 0; i < worldSizePattern.length; i++) {
+            for (int j = 0; j < worldSizePattern[0].length; j++) {
+                assertEquals(
+                    worldSizePattern[i][j],
+                    actualPattern[i][j],
+                    context,
+                    r -> String.format("Expected the robots to be arranged like %s \nBut they are arranged like %s", convertArrayOfArrayOfBooleanToString(worldSizePattern), convertArrayOfArrayOfBooleanToString(actualPattern))
+                );
+            }
+        }
     }
 
 }
