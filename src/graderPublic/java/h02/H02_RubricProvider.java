@@ -55,22 +55,22 @@ public class H02_RubricProvider implements RubricProvider {
             DEFAULT_CRITERION.apply(
                 "Methode initialisiert die korrekte Anzahl von Robotern.",
 //                "Method initializes a correct number of robots",
-                () -> InitializeRobotsPatternTest.class.getDeclaredMethod("testNumberOfRobots", boolean[][].class, int.class)
+                () -> InitializeRobotsPatternTest.class.getDeclaredMethod("testNumberOfRobotsWithFittingPattern", String.class, int.class)
             ),
             DEFAULT_CRITERION.apply(
                 "Methode initialisiert die Roboter mit den korrekten Koordinaten.",
 //                "Method initializes robots at the correct coordinates",
-                () -> InitializeRobotsPatternTest.class.getDeclaredMethod("testCoordinates", boolean[][].class)
+                () -> InitializeRobotsPatternTest.class.getDeclaredMethod("testCoordinatesWithFittingPattern", String.class)
             ),
             DEFAULT_CRITERION.apply(
                 "Methode initialisiert die Roboter mit der korrekten Anzahl an Münzen.",
 //                "Method initializes robots with the correct number of coins",
-                () -> InitializeRobotsPatternTest.class.getDeclaredMethod("testCoins", boolean[][].class)
+                () -> InitializeRobotsPatternTest.class.getDeclaredMethod("testCoinsWithFittingPattern", String.class)
             ),
             DEFAULT_CRITERION.apply(
                 "Methode initialisiert die Roboter mit der korrekten Ausrichtung.",
 //                "Method initializes robots with the correct direction.",
-                () -> InitializeRobotsPatternTest.class.getDeclaredMethod("testDirections", boolean[][].class)
+                () -> InitializeRobotsPatternTest.class.getDeclaredMethod("testDirectionsWithFittingPattern", String.class)
             ),
             DEFAULT_CRITERION.apply(
                 "Methode initialisiert die Roboter korrekt, wenn das Muster nicht in die Welt passt.",
