@@ -10,7 +10,7 @@ import java.util.Arrays;
 
 import static org.tudalgo.algoutils.tutor.general.assertions.Assertions2.*;
 
-@TestForSubmission("h02")
+@TestForSubmission
 public
 class GenerateThreeDistinctRandomIndicesTest {
 

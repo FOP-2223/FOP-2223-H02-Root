@@ -18,7 +18,7 @@ import static h02.Utils.*;
 import static h02.h3.H3Utils.*;
 import static org.tudalgo.algoutils.tutor.general.assertions.Assertions2.*;
 
-@TestForSubmission("h02")
+@TestForSubmission
 public class ReduceRobotArrayTest {
 
     private static final String PATH_TO_CSV = "/h3/h3_5/RobotArrays.csv";

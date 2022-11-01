@@ -14,7 +14,6 @@ import java.lang.reflect.Method;
 import java.util.concurrent.Callable;
 import java.util.function.BiFunction;
 
-@RubricForSubmission("h02")
 public class H02_RubricProvider implements RubricProvider {
 
     private static final BiFunction<String, Callable<Method>, Criterion> DEFAULT_CRITERION = (s, methodCallable) ->

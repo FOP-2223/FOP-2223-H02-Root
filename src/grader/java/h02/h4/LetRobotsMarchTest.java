@@ -19,7 +19,7 @@ import java.util.List;
 
 import static h02.Utils.*;
 
-@TestForSubmission("h02")
+@TestForSubmission
 public class LetRobotsMarchTest {
 
     private static final String PATH_TO_CSV = "/h4/RobotArrays.csv";

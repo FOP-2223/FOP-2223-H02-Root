@@ -13,7 +13,7 @@ import static h02.Utils.WORLD_WIDTH;
 import static h02.Utils.WORLD_HEIGHT;
 import static org.tudalgo.algoutils.tutor.general.assertions.Assertions2.*;
 
-@TestForSubmission("h02")
+@TestForSubmission
 public class NumberOfNullRobotsTest {
 
     private static final String PATH_TO_CSV = "/h3/h3_1/RobotArrays.csv";

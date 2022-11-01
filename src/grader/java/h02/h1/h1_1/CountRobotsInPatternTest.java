@@ -10,7 +10,7 @@ import static h02.Utils.WORLD_WIDTH;
 import static h02.Utils.WORLD_HEIGHT;
 import static org.tudalgo.algoutils.tutor.general.assertions.Assertions2.*;
 
-@TestForSubmission("h02")
+@TestForSubmission
 public class CountRobotsInPatternTest {
 
     private static final String PATH_TO_CSV = "/h1/h1_1/FittingPatterns.csv";

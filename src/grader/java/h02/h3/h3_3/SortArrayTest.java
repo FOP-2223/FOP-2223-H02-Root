@@ -10,7 +10,7 @@ import java.util.*;
 import static h02.h3.H3Utils.convertStringToIntArray;
 import static org.tudalgo.algoutils.tutor.general.assertions.Assertions2.*;
 
-@TestForSubmission("h02")
+@TestForSubmission
 public class SortArrayTest {
 
     private static final String PATH_TO_CSV = "/h3/h3_3/ArraysToSort.csv";

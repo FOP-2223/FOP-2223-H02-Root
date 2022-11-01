@@ -18,7 +18,7 @@ import static h02.h1.H1Utils.convertArrayOfArrayOfBooleanToString;
 import static org.tudalgo.algoutils.tutor.general.assertions.Assertions2.*;
 
 
-@TestForSubmission("h02")
+@TestForSubmission
 public class InitializeRobotsPatternTest {
 
     private static final String PATH_TO_CSV = "/h1/h1_2/FittingPatterns.csv";
