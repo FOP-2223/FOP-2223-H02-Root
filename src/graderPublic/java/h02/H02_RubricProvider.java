@@ -174,7 +174,7 @@ public class H02_RubricProvider implements RubricProvider {
 
     private static final Criterion CRITERION_H4 = Criterion
         .builder()
-        .shortDescription("H3.5: Die Hauptschleife")
+        .shortDescription("H4: Die Hauptschleife")
         .addChildCriteria(
             DEFAULT_CRITERION.apply(
                 "Die Methode ruft die anderen in H3 implementierten Methoden auf.",
