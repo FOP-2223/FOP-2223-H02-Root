@@ -46,7 +46,7 @@ public class InitializeRobotsPatternTest {
         mainSpy.initializeRobotsPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT);
 
         call(
-            () -> Mockito.verify(mainSpy).countRobotsInPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT),
+            () -> Mockito.verify(mainSpy, Mockito.atLeastOnce()).countRobotsInPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT),
             contextBuilder().add("Pattern", patternAsString).build(),
             r -> String.format(
                 "Expected method %s to call method %s at least once!",
