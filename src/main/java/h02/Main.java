@@ -55,7 +55,9 @@ public class Main {
 
         // Call initializeRobotsPattern
         Robot[] allRobots = main.initializeRobotsPattern(testPattern, numberOfColumns, numberOfRows);
-        //letRobotsMarch(allRobots);
+
+        // Call letRobotsMarch with initialized Pattern
+        main.letRobotsMarch(allRobots);
     }
 
     /**
@@ -90,7 +92,7 @@ public class Main {
                     numberOfRobots++;
                 }
 
-                // Note that conditions can be summarized in one if-statement
+                // Note that conditions can be summarized in one if-statement, as can be seen in the following method
             }
         }
 
@@ -119,18 +121,8 @@ public class Main {
             // Loop through the rows of the world. Satisfies condition (b)
             for (int y = 0; y < numberOfRows; y++) {
 
-                // Condition (c)
-                boolean c = x < pattern.length;
-
-                // Condition (d), only satisfiable if (c) is met
-                boolean d = c && y < pattern[x].length;
-
-                // Condition (e), only satisfiable if (c) AND (d) are met
-                boolean e = c && d && pattern[x][y];
-
-                // Iff (if and only if) all five conditions are met, create a new Robot with
-                // coordinates x, y, direction = RIGHT and numberOfCoins = numberOfColumns - x
-                if (c && d && e) {
+                // Satisfy conditions c to e in one if-statement
+                if (x < pattern.length && y < pattern[x].length && pattern[x][y]) {
 
                     // Initialize Robot, note that indexForRobot++ increases indexForRobot AFTER this line is executed
                     allRobots[indexForRobot++] = new Robot(x, y, Direction.RIGHT, numberOfColumns - x);
@@ -337,6 +329,8 @@ public class Main {
 
                 // Call reduceRobotArray to reduce the array by l
                 allRobots = reduceRobotArray(allRobots, l);
+
+                // Again, do you see a drawback using arrays?
             }
 
             // This way all the previously implemented methods are called
