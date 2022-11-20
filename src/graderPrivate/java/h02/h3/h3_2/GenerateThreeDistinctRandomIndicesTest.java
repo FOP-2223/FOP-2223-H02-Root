@@ -2,6 +2,7 @@ package h02.h3.h3_2;
 
 import h02.Main;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 
@@ -22,13 +23,27 @@ class GenerateThreeDistinctRandomIndicesTest {
     static int[] comparator;
 
     private static final Main main = new Main();
+    private static boolean methodImplemented = true;
+    private static Exception exception;
 
     @BeforeAll
     static void setup() {
-        for (int i = 0; i < NUMBER_OF_SAMPLES; i++) {
-            arraySamples.add(main.generateThreeDistinctRandomIndices(BOUND));
+        try {
+            for (int i = 0; i < NUMBER_OF_SAMPLES; i++) {
+                arraySamples.add(main.generateThreeDistinctRandomIndices(BOUND));
+            }
+            comparator = main.generateThreeDistinctRandomIndices(BOUND);
+        } catch (Exception e) {
+            methodImplemented = false;
+            exception = e;
         }
-        comparator = main.generateThreeDistinctRandomIndices(BOUND);
+    }
+
+    @BeforeEach
+    void checkMethodImplemented() {
+        if (!methodImplemented) {
+            fail(exception, emptyContext(), result -> "unexpected exception thrown: " + exception.getClass().getName());
+        }
     }
 
     @Test

@@ -33,14 +33,22 @@ public class CountRobotsInPatternTest {
 
     private void testCounting(String patternAsString, int expected) {
         boolean[][] pattern = H1Utils.convertStringToPattern(patternAsString);
-        int actual = main.countRobotsInPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT);
 
         var context = contextBuilder()
+            .add("Method", "countRobotsInPattern()")
             .add("World width", WORLD_WIDTH)
             .add("World height", WORLD_HEIGHT)
             .add("Pattern", patternAsString)
             .add("Number of robots", expected)
             .build();
+
+        call(
+            () -> main.countRobotsInPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT),
+            context,
+            r -> "Call resulted in an error"
+        );
+
+        int actual = main.countRobotsInPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT);
 
         assertEquals(
             expected,

@@ -22,7 +22,13 @@ public class SortArrayTest {
     void testSorting(String arrayAsString) {
         int[] actual = convertStringToIntArray(arrayAsString);
         int[] expected = actual.clone();
-        main.sortArray(actual);
+
+        call(
+            () -> main.sortArray(actual),
+            contextBuilder().add("Method", "sortArray()").build(),
+            r -> "Call resulted in an error"
+        );
+
         Arrays.sort(expected);
 
         var context = contextBuilder()

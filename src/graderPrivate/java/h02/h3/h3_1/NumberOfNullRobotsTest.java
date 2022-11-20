@@ -38,6 +38,7 @@ public class NumberOfNullRobotsTest {
     void testNumberOfNullRobots(String robotArray) {
 
         var context = contextBuilder()
+            .add("Method", "numberOfNullRobots()")
             .add("World width", WORLD_WIDTH)
             .add("World height", WORLD_HEIGHT)
             .add("Robot-Array", robotArray)
@@ -46,6 +47,13 @@ public class NumberOfNullRobotsTest {
         provider.reassign(robotArray);
 
         int expectedNumberOfNullRobots = provider.numberOfNullElements;
+
+        call(
+            () -> main.numberOfNullRobots(provider.robots),
+            context,
+            r -> "Call resulted in an error"
+        );
+
         int actualNumberOfNullRobots = main.numberOfNullRobots(provider.robots);
 
         assertEquals(

@@ -112,12 +112,19 @@ public class LetRobotsMarchTest {
     void testNullArray() {
         World.reset();
         Robot[] array = {null, null, null};
-        main.letRobotsMarch(array);
+
         List<RobotTrace> listOfTraces = World.getGlobalWorld().getTraces();
 
         var context = contextBuilder()
+            .add("Method", "letRobotsMarch()")
             .add("Array", Arrays.toString(array))
             .build();
+
+        call(
+            () -> main.letRobotsMarch(array),
+            context,
+            r -> "Call resulted in an error"
+        );
 
         for (RobotTrace trace : listOfTraces) {
             assertNull(
@@ -152,11 +159,18 @@ public class LetRobotsMarchTest {
     void checkActions(String arrayAsString) {
 
         var context = contextBuilder()
+            .add("Method", "letRobotsMarch()")
             .add("Array", arrayAsString)
             .build();
 
         Robot[] robots = convertStringToRobotArrayWithCoordinates(arrayAsString);
-        main.letRobotsMarch(robots);
+
+        call(
+            () -> main.letRobotsMarch(robots),
+            context,
+            r -> "Call resulted in an error"
+        );
+
         for (RobotTrace trace : World.getGlobalWorld().getTraces()) {
             for (Transition transition : trace.getTransitions()) {
                 assertFalse(
@@ -177,13 +191,19 @@ public class LetRobotsMarchTest {
     void testAllRobotsReachEnd(String arrayAsString) {
 
         var context = contextBuilder()
+            .add("Method", "letRobotsMarch()")
             .add("Array", arrayAsString)
             .build();
 
         World.reset();
         Robot[] robots = convertStringToRobotArrayWithCoordinates(arrayAsString);
         Robot[] robotsCopy = Arrays.copyOf(robots, robots.length);
-        main.letRobotsMarch(robots);
+
+        call(
+            () -> main.letRobotsMarch(robots),
+            context,
+            r -> "Call resulted in an error"
+        );
 
         for (Robot roby : robotsCopy) {
             if (roby == null)
@@ -216,13 +236,18 @@ public class LetRobotsMarchTest {
     void testAllRobotsPutCoins(String arrayAsString) {
 
         var context = contextBuilder()
+            .add("Method", "letRobotsMarch()")
             .add("Array", arrayAsString)
             .build();
 
         Robot[] robots = convertStringToRobotArrayWithCoordinates(arrayAsString);
         Robot[] robotsCopy = Arrays.copyOf(robots, robots.length);
 
-        main.letRobotsMarch(robots);
+        call(
+            () -> main.letRobotsMarch(robots),
+            context,
+            r -> "Call resulted in an error"
+        );
 
         for (Robot roby : robotsCopy) {
             if (roby == null)

@@ -94,6 +94,7 @@ public class InitializeRobotsPatternTest {
     private void doesNotThrowException(String patternAsString) {
 
         var context = contextBuilder()
+            .add("Method", "initializeRobotsPattern()")
             .add("World width", WORLD_WIDTH)
             .add("World height", WORLD_HEIGHT)
             .add("Pattern", patternAsString)
@@ -111,13 +112,19 @@ public class InitializeRobotsPatternTest {
     private void testNumberOfRobots(String patternAsString, int expected) {
 
         var context = contextBuilder()
+            .add("Method", "initializeRobotsPattern()")
             .add("World width", WORLD_WIDTH)
             .add("World height", WORLD_HEIGHT)
             .add("Pattern", patternAsString)
             .build();
 
         boolean[][] pattern = H1Utils.convertStringToPattern(patternAsString);
-        main.initializeRobotsPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT);
+
+        call(
+            () -> main.initializeRobotsPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT),
+            context,
+            r -> "Call resulted in an error"
+        );
 
         int actualNumberOfRobots = World.getGlobalWorld().getAllFieldEntities().size();
 
@@ -132,13 +139,19 @@ public class InitializeRobotsPatternTest {
     private void testCoins(String patternAsString) {
 
         var context = contextBuilder()
+            .add("Method", "initializeRobotsPattern()")
             .add("World width", WORLD_WIDTH)
             .add("World height", WORLD_HEIGHT)
             .add("Pattern", patternAsString)
             .build();
 
         boolean[][] pattern = H1Utils.convertStringToPattern(patternAsString);
-        main.initializeRobotsPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT);
+
+        call(
+            () -> main.initializeRobotsPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT),
+            context,
+            r -> "Call resulted in an error"
+        );
 
         for (FieldEntity robot : World.getGlobalWorld().getAllFieldEntities()) {
             if (robot instanceof Robot) {
@@ -158,13 +171,19 @@ public class InitializeRobotsPatternTest {
     private void testDirections(String patternAsString) {
 
         var context = contextBuilder()
+            .add("Method", "initializeRobotsPattern()")
             .add("World width", WORLD_WIDTH)
             .add("World height", WORLD_HEIGHT)
             .add("Pattern", patternAsString)
             .build();
 
         boolean[][] pattern = H1Utils.convertStringToPattern(patternAsString);
-        main.initializeRobotsPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT);
+
+        call(
+            () -> main.initializeRobotsPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT),
+            context,
+            r -> "Call resulted in an error"
+        );
 
         Direction expectedDirection = Direction.RIGHT;
 
@@ -185,13 +204,19 @@ public class InitializeRobotsPatternTest {
     private void testCoordinates(String patternAsString) {
 
         var context = contextBuilder()
+            .add("Method", "initializeRobotsPattern()")
             .add("World width", WORLD_WIDTH)
             .add("World height", WORLD_HEIGHT)
             .add("Pattern", patternAsString)
             .build();
 
         boolean[][] pattern = H1Utils.convertStringToPattern(patternAsString);
-        main.initializeRobotsPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT);
+
+        call(
+            () -> main.initializeRobotsPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT),
+            context,
+            r -> "Call resulted in an error"
+        );
 
         boolean[][] actualPattern = new boolean[WORLD_HEIGHT][WORLD_WIDTH];
         boolean[][] worldSizePattern = H1Utils.getWorldSizeRobotPattern(pattern, WORLD_WIDTH, WORLD_HEIGHT);

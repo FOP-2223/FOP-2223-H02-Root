@@ -42,6 +42,13 @@ public class ReduceRobotArrayTest {
         Robot[] robots = H3Utils.convertStringToRobotArrayWithCoordinates(arrayAsString);
         int numberNulls = WORLD_WIDTH * WORLD_HEIGHT - numberRobots;
         int expectedSize = robots.length - numberNulls;
+
+        call(
+            () -> main.reduceRobotArray(robots, numberNulls),
+            contextBuilder().add("Method", "reduceRobotArray()").build(),
+            r -> "Call resulted in an error"
+        );
+
         Robot[] resize = main.reduceRobotArray(robots, numberNulls);
         int actualSize = resize.length;
 
@@ -65,6 +72,13 @@ public class ReduceRobotArrayTest {
         Robot[] robots = H3Utils.convertStringToRobotArrayWithCoordinates(arrayAsString);
         List<Robot> robotsBefore = Arrays.stream(robots).filter(Objects::nonNull).toList();
         int numberNulls = WORLD_WIDTH * WORLD_HEIGHT - numberRobots;
+
+        call(
+            () -> main.reduceRobotArray(robots, numberNulls),
+            contextBuilder().add("Method", "reduceRobotArray()").build(),
+            r -> "Call resulted in an error"
+        );
+
         Robot[] resize = main.reduceRobotArray(robots, numberNulls);
         List<Robot> robotsAfter = Arrays.stream(resize).toList();
 

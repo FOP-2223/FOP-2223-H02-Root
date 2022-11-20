@@ -31,7 +31,11 @@ public class SwapRobotsTest {
         Robot[] array = convertStringToRobotArray(robotArrayAsString);
         Robot[] reference = array.clone();
 
-        main.swapRobots(new int[]{i, j, k}, array);
+        call(
+            () -> main.swapRobots(new int[]{i, j, k}, array),
+            contextBuilder().add("Method", "swapRobots()").build(),
+            r -> "Call resulted in an error"
+        );
 
         var context = contextBuilder()
             .add("Robot-Array before swapping", robotArrayAsString)
