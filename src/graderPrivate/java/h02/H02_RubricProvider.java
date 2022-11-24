@@ -30,6 +30,17 @@ public class H02_RubricProvider implements RubricProvider {
                 .build())
             .build();
 
+    private static final BiFunction<String, Callable<Method>, Criterion> TWO_POINTS_CRITERION = (s, methodCallable) ->
+        Criterion.builder()
+            .shortDescription(s)
+            .maxPoints(2)
+            .grader(Grader.testAwareBuilder()
+                .requirePass(JUnitTestRef.ofMethod(methodCallable))
+                .pointsFailedMin()
+                .pointsPassedMax()
+                .build())
+            .build();
+
     private static final Criterion CRITERION_H1_1 = Criterion
         .builder()
         .shortDescription("H1.1 | Zählen von \\<samp\\>true\\</samp\\> in einem Array von Array von \\<samp\\>boolean\\</samp\\>")
@@ -76,7 +87,7 @@ public class H02_RubricProvider implements RubricProvider {
 //                "Method initializes robots with the correct direction.",
                 () -> InitializeRobotsPatternTest.class.getDeclaredMethod("testDirectionsWithFittingPattern", String.class)
             ),
-            DEFAULT_CRITERION.apply(
+            TWO_POINTS_CRITERION.apply(
                 "Methode initialisiert die Roboter korrekt, wenn das Muster nicht in die Welt passt.",
 //                "Method does correct initialization with a pattern that does not fit the world.",
                 () -> InitializeRobotsPatternTest.class.getDeclaredMethod("testNotFittingPatterns", String.class, int.class)
@@ -132,6 +143,7 @@ public class H02_RubricProvider implements RubricProvider {
     private static final Criterion CRITERION_H3_3 = Criterion
         .builder()
         .shortDescription("H3.3 | Sortierung eines 3-elementigen \\<samp\\>int\\</samp\\>-Arrays")
+        .maxPoints(2)
         .addChildCriteria(
             DEFAULT_CRITERION.apply(
                 "Alle Arrays werden korrekt sortiert.",
