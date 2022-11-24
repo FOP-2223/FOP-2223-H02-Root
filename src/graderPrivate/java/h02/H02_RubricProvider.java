@@ -143,9 +143,8 @@ public class H02_RubricProvider implements RubricProvider {
     private static final Criterion CRITERION_H3_3 = Criterion
         .builder()
         .shortDescription("H3.3 | Sortierung eines 3-elementigen \\<samp\\>int\\</samp\\>-Arrays")
-        .maxPoints(2)
         .addChildCriteria(
-            DEFAULT_CRITERION.apply(
+            TWO_POINTS_CRITERION.apply(
                 "Alle Arrays werden korrekt sortiert.",
 //                "All arrays are sorted correctly.",
                 () -> SortArrayTest.class.getDeclaredMethod("testSorting", String.class)
