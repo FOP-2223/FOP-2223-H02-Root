@@ -8,7 +8,11 @@ import h02.h3.h3_3.SortArrayTest;
 import h02.h3.h3_4.SwapRobotsTest;
 import h02.h3.h3_5.ReduceRobotArrayTest;
 import h02.h4.LetRobotsMarchTest;
-import org.sourcegrade.jagr.api.rubric.*;
+import org.sourcegrade.jagr.api.rubric.Criterion;
+import org.sourcegrade.jagr.api.rubric.Grader;
+import org.sourcegrade.jagr.api.rubric.JUnitTestRef;
+import org.sourcegrade.jagr.api.rubric.Rubric;
+import org.sourcegrade.jagr.api.rubric.RubricProvider;
 
 import java.lang.reflect.Method;
 import java.util.concurrent.Callable;
@@ -28,7 +32,7 @@ public class H02_RubricProvider implements RubricProvider {
 
     private static final Criterion CRITERION_H1_1 = Criterion
         .builder()
-        .shortDescription("H1.1: Zählen von [[[true]]] in einem Array von Array von [[[boolean]]]")
+        .shortDescription("H1.1: Zählen von \\<samp\\>true\\</samp\\> in einem Array von Array von \\<samp\\>boolean\\</samp\\>")
         .addChildCriteria(
             DEFAULT_CRITERION.apply(
                 "Methode zählt die Anzahl der Roboter für ein gegebenes Muster, welches in die Welt passt, korrekt.",
@@ -45,11 +49,11 @@ public class H02_RubricProvider implements RubricProvider {
 
     private static final Criterion CRITERION_H1_2 = Criterion
         .builder()
-        .shortDescription("H1.2: Erstellen eines [[[Robot]]]-Arrays mittels eines Patterns")
+        .shortDescription("H1.2: Erstellen eines \\<samp\\>Robot\\</samp\\>-Arrays mittels eines Patterns")
         .addChildCriteria(
             DEFAULT_CRITERION.apply(
-                "Methode benutzt [[[countRobotsInPattern]]] mindestens einmal.",
-//                "Method uses [[[countRobotsInPattern]]] at least once.",
+                "Methode benutzt \\<samp\\>countRobotsInPattern\\</samp\\> mindestens einmal.",
+//                "Method uses \\<samp\\>countRobotsInPattern\\</samp\\> at least once.",
                 () -> InitializeRobotsPatternTest.class.getDeclaredMethod("testInvocationsOfCountOfRobotsInPattern", String.class)
             ),
             DEFAULT_CRITERION.apply(
@@ -82,17 +86,17 @@ public class H02_RubricProvider implements RubricProvider {
 
     private static final Criterion CRITERION_H1 = Criterion
         .builder()
-        .shortDescription("H1: Erstellen eines [[[Robot]]]-Arrays")
+        .shortDescription("H1: Erstellen eines \\<samp\\>Robot\\</samp\\>-Arrays")
         .addChildCriteria(CRITERION_H1_1, CRITERION_H1_2)
         .build();
 
     private static final Criterion CRITERION_H3_1 = Criterion
         .builder()
-        .shortDescription("H3.1: Arraykomponenten gleich [[[null]]]")
+        .shortDescription("H3.1: Arraykomponenten gleich \\<samp\\>null\\</samp\\>")
         .addChildCriteria(
             DEFAULT_CRITERION.apply(
-                "Die Anzahl der Komponenten mit Wert [[[null]]] wird korrekt gezählt.",
-//                "Number of elements equal to [[[null]]] is correctly counted.",
+                "Die Anzahl der Komponenten mit Wert \\<samp\\>null\\</samp\\> wird korrekt gezählt.",
+//                "Number of elements equal to \\<samp\\>null\\</samp\\> is correctly counted.",
                 () -> NumberOfNullRobotsTest.class.getDeclaredMethod("testNumberOfNullRobots", String.class)
             )
         )
@@ -100,7 +104,7 @@ public class H02_RubricProvider implements RubricProvider {
 
     private static final Criterion CRITERION_H3_2 = Criterion
         .builder()
-        .shortDescription("H3.2: Drei (pseudo-)zufällige [[[int]]]-Werte")
+        .shortDescription("H3.2: Drei (pseudo-)zufällige \\<samp\\>int\\</samp\\>-Werte")
         .addChildCriteria(
             DEFAULT_CRITERION.apply(
                 "Alle erzeugten Arrays haben exakt die Länge 3.",
@@ -127,7 +131,7 @@ public class H02_RubricProvider implements RubricProvider {
 
     private static final Criterion CRITERION_H3_3 = Criterion
         .builder()
-        .shortDescription("H3.3: Sortierung eines 3-elementigen [[[int]]]-Arrays")
+        .shortDescription("H3.3: Sortierung eines 3-elementigen \\<samp\\>int\\</samp\\>-Arrays")
         .addChildCriteria(
             DEFAULT_CRITERION.apply(
                 "Alle Arrays werden korrekt sortiert.",
@@ -182,8 +186,8 @@ public class H02_RubricProvider implements RubricProvider {
                 () -> LetRobotsMarchTest.class.getDeclaredMethod("testUseOfMethods")
             ),
             DEFAULT_CRITERION.apply(
-                "Die Methode funktioniert korrekt, auch dann, wenn alle Arraykomponenten [[[null]]] sind.",
-//                "Method correctly works with an array containing only [[[null]]].",
+                "Die Methode funktioniert korrekt, auch dann, wenn alle Arraykomponenten \\<samp\\>null\\</samp\\> sind.",
+//                "Method correctly works with an array containing only \\<samp\\>null\\</samp\\>.",
                 () -> LetRobotsMarchTest.class.getDeclaredMethod("testNullArray")
             ),
             DEFAULT_CRITERION.apply(
