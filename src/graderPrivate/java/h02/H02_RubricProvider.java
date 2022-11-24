@@ -46,12 +46,12 @@ public class H02_RubricProvider implements RubricProvider {
         .shortDescription("H1.1 | Zählen von \\<samp\\>true\\</samp\\> in einem Array von Array von \\<samp\\>boolean\\</samp\\>")
         .addChildCriteria(
             DEFAULT_CRITERION.apply(
-                "Methode zählt die Anzahl der Roboter für ein gegebenes Muster, welches in die Welt passt, korrekt.",
+                "Die Methode zählt die Anzahl der Roboter für ein gegebenes Muster, welches in die Welt passt, korrekt.",
 //                "Method correctly counts the number of robots for a pattern with a size fitting the world.",
                 () -> CountRobotsInPatternTest.class.getDeclaredMethod("testFittingPattern", String.class, int.class)
             ),
             DEFAULT_CRITERION.apply(
-                "Methode zählt die Anzahl der Roboter für ein gegebenes Muster, welches nicht in die Welt passt, korrekt.",
+                "Die Methode zählt die Anzahl der Roboter für ein gegebenes Muster, welches nicht in die Welt passt, korrekt.",
 //                "Method correctly counts the number of robots for a pattern with a size not fitting the world.",
                 () -> CountRobotsInPatternTest.class.getDeclaredMethod("testUnFittingPattern", String.class, int.class)
             )
@@ -63,32 +63,32 @@ public class H02_RubricProvider implements RubricProvider {
         .shortDescription("H1.2 | Erstellen eines \\<samp\\>Robot\\</samp\\>-Arrays mittels eines Patterns")
         .addChildCriteria(
             DEFAULT_CRITERION.apply(
-                "Methode benutzt \\<samp\\>countRobotsInPattern\\</samp\\> mindestens einmal.",
+                "Die Methode benutzt \\<samp\\>countRobotsInPattern\\</samp\\> mindestens einmal.",
 //                "Method uses \\<samp\\>countRobotsInPattern\\</samp\\> at least once.",
                 () -> InitializeRobotsPatternTest.class.getDeclaredMethod("testInvocationsOfCountOfRobotsInPattern", String.class)
             ),
             DEFAULT_CRITERION.apply(
-                "Methode initialisiert die korrekte Anzahl von Robotern.",
+                "Die Methode initialisiert die korrekte Anzahl von Robotern.",
 //                "Method initializes a correct number of robots",
                 () -> InitializeRobotsPatternTest.class.getDeclaredMethod("testNumberOfRobotsWithFittingPattern", String.class, int.class)
             ),
             DEFAULT_CRITERION.apply(
-                "Methode initialisiert die Roboter mit den korrekten Koordinaten.",
+                "Die Methode initialisiert die Roboter mit den korrekten Koordinaten.",
 //                "Method initializes robots at the correct coordinates",
                 () -> InitializeRobotsPatternTest.class.getDeclaredMethod("testCoordinatesWithFittingPattern", String.class)
             ),
             DEFAULT_CRITERION.apply(
-                "Methode initialisiert die Roboter mit der korrekten Anzahl an Münzen.",
+                "Die Methode initialisiert die Roboter mit der korrekten Anzahl an Münzen.",
 //                "Method initializes robots with the correct number of coins",
                 () -> InitializeRobotsPatternTest.class.getDeclaredMethod("testCoinsWithFittingPattern", String.class)
             ),
             DEFAULT_CRITERION.apply(
-                "Methode initialisiert die Roboter mit der korrekten Ausrichtung.",
+                "Die Methode initialisiert die Roboter mit der korrekten Ausrichtung.",
 //                "Method initializes robots with the correct direction.",
                 () -> InitializeRobotsPatternTest.class.getDeclaredMethod("testDirectionsWithFittingPattern", String.class)
             ),
             TWO_POINTS_CRITERION.apply(
-                "Methode initialisiert die Roboter korrekt, wenn das Muster nicht in die Welt passt.",
+                "Die Methode initialisiert die Roboter korrekt, wenn das Muster nicht in die Welt passt.",
 //                "Method does correct initialization with a pattern that does not fit the world.",
                 () -> InitializeRobotsPatternTest.class.getDeclaredMethod("testNotFittingPatterns", String.class, int.class)
             )
